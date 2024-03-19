@@ -1,0 +1,18 @@
+<main class="main">
+  <section class="variables-section">
+    <div class="input-box" *ngFor="let variable of variables; let i = index">
+      <app-data-input
+        [variable]="variable"
+        (valueChange)="onValueChange($event, i)"
+      />
+    </div>
+    <app-variable-buttons [variables]="variables"/>
+  </section>
+  <section class="function-section">
+    <div class="formula-box">
+      <h3>f(x) = an*x^n + an-1*x^n-1 + ... + a0*x^0</h3>
+    </div>
+    <div class="graph-box">
+    </div>
+  </section>
+</main>

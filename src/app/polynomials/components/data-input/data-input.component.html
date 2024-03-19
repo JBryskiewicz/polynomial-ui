@@ -1,0 +1,9 @@
+<mat-form-field class="variable-input">
+  <mat-label>a{{ variable.position }}</mat-label>
+  <input
+    matInput
+    [value]="variable.value"
+    (input)="onInputChange($event)"
+  >
+</mat-form-field>
+

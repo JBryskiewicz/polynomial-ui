@@ -1,0 +1,20 @@
+.main {
+  display: flex;
+  justify-content: space-evenly;
+  height: 100vh;
+  width: 100vw;
+  background-color: lightslategrey;
+
+  .variables-section {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    align-items: center;
+  }
+}
+
+.input-box {
+  display: flex;
+}
+
+
