@@ -22,7 +22,7 @@ export class DataInputComponent {
 
   // TODO validation for not a number values
   onInputChange(event: any){
-    if(event.target.value !== 0){
+    if(parseFloat(event.target.value) !== 0){
       this.valueChange.emit(event.target.value);
     } else {
       console.log("variable cannot be 0")

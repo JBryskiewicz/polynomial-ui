@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {NgForOf} from "@angular/common";
 import {DataInputComponent} from "./data-input/data-input.component";
 import {MatIcon} from "@angular/material/icon";
@@ -21,7 +21,7 @@ import {VariableButtonsComponent} from "./variable-buttons/variable-buttons.comp
 })
 export class PolynomialsComponent {
   initialVariables: Variable[] = [
-    {position: 0, value: 0},
+    {position: 0, value: 1},
     {position: 1, value: 1},
     {position: 2, value: 1}
   ];

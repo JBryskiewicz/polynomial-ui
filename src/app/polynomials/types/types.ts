@@ -1,10 +1,17 @@
 export interface Variable {
-  id?: number;
   position: number;
   value: number;
 }
 
+export interface VariableEntity extends Variable{
+  id: number;
+}
+
 export interface Polynomial {
-  id?: number;
   variables: Variable[];
+}
+
+export interface PolynomialEntity {
+  id: number;
+  variables: VariableEntity[];
 }
