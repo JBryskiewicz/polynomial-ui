@@ -3,7 +3,14 @@
     <div class="input-box" *ngFor="let variable of variables; let i = index">
       <app-data-input
         [variable]="variable"
-        (valueChange)="onValueChange($event, i)"
+        (valueChange)="onVariableChange($event, i)"
+      />
+    </div>
+    <div class="input-box" *ngFor="let range of range; let i = index">
+      <app-range-input
+        [index]="i"
+        [range]="range"
+        (valueChange)="onRangeChange($event, i)"
       />
     </div>
     <app-variable-buttons [variables]="variables"/>
@@ -13,6 +20,23 @@
       <h3>f(x) = an*x^n + an-1*x^n-1 + ... + a0*x^0</h3>
     </div>
     <div class="graph-box">
+    </div>
+  </section>
+  <section class="polynomials-section">
+    <div class="recent-poly-box">
+      <h2>Recently created polynomials</h2>
+    </div>
+    <div class="button-list-box">
+      <div *ngFor="let polynomial of polynomials">
+        <div class="poly-button">
+          <p>
+            {{ polynomial.id }}
+          </p>
+          <button (click)="polynomialDelete(polynomial.id)">
+            delete
+          </button>
+        </div>
+      </div>
     </div>
   </section>
 </main>

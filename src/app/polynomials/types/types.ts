@@ -15,3 +15,8 @@ export interface PolynomialEntity {
   id: number;
   variables: VariableEntity[];
 }
+
+export interface FunctionRange {
+  start: number;
+  end: number;
+}

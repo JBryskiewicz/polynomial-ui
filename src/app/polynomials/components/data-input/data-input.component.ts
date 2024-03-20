@@ -16,11 +16,11 @@ import {Variable} from "../../types/types";
 })
 export class DataInputComponent {
   @Input() variable: Variable = {position: 0, value: 0};
-  @Output() valueChange = new EventEmitter<string>();
+  @Output() valueChange: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() { }
 
-  // TODO validation for not a number values
+  // TODO proper validation for not a number values
   onInputChange(event: any){
     if(parseFloat(event.target.value) !== 0){
       this.valueChange.emit(event.target.value);

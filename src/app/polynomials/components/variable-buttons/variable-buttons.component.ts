@@ -22,6 +22,7 @@ export class VariableButtonsComponent {
   saveToDataBase() {
     const polynomial: Polynomial = { variables: this.variables }
     this.polyService.savePolynomial(polynomial);
+    //getAllPolynomials from service, either to global state or pass with emit
   }
 
   addVariable(): void  {
