@@ -10,11 +10,16 @@ import {RangeInputComponent} from "./range-input/range-input.component";
 import {FunctionGraphComponent} from "./function-graph/function-graph.component";
 import {FunctionService} from "../services/function.service";
 import {Store} from "@ngrx/store";
-import {initialRange, initialVariables} from "../initialValues/polynomial.initialValues";
+import {initialVariables} from "../initialValues/polynomial.initialValues";
 import {loadPolynomials} from "../../reducers/polynomial.actions";
 import {MatCard, MatCardContent} from "@angular/material/card";
 import {RecentPolynomialsComponent} from "./recent-polynomials/recent-polynomials.component";
-import {selectPolynomialList} from "../../reducers/polynomial.selectors";
+import {
+  selectCurrentRange,
+  selectCurrentVariables,
+  selectGraphData,
+  selectPolynomialList
+} from "../../reducers/polynomial.selectors";
 import {Observable} from "rxjs";
 
 @Component({
@@ -38,11 +43,11 @@ import {Observable} from "rxjs";
   styleUrl: './polynomials.component.scss'
 })
 export class PolynomialsComponent implements OnInit {
-  range: number[] = [ ...initialRange ];
-  variables: Variable[] = [ ...initialVariables ];
-  polynomials$?: Observable<PolynomialEntity[]> = this.store.select(selectPolynomialList);
+  range$?: Observable<number[]> = this.store.select(selectCurrentRange);
+  variables$?: Observable<Variable[]> = this.store.select(selectCurrentVariables);
 
-  data: GraphData[] = [];
+  polynomials$?: Observable<PolynomialEntity[]> = this.store.select(selectPolynomialList);
+  data$?: Observable<GraphData[]> = this.store.select(selectGraphData);
 
   constructor(
     private polyService: PolynomialService,
@@ -55,16 +60,17 @@ export class PolynomialsComponent implements OnInit {
       this.polyService.loadPolynomialsAndDispatch();
   }
 
+  // TODO implement on change global state range & variables ,
+  //  so graph adjusts according to the global state.
   onVariableChange(newValue: string, index: number) {
-    this.variables[index].value = parseFloat(newValue);
-    this.data = this.functionService.populateGraph(this.variables, this.range);
-    console.log(this.data)
+    // this.variables[index].value = parseFloat(newValue);
+    // console.log(parseFloat(newValue));
+    // this.functionService.populateGraph(this.variables, this.range$);
   }
 
   onRangeChange(newValue: string, index: number) {
-    this.range[index] = parseFloat(newValue);
-    this.data = this.functionService.populateGraph(this.variables, this.range);
-    console.log(this.data)
+    // this.range$[index] = parseFloat(newValue);
+    // this.functionService.populateGraph(this.variables, this.range$);
   }
 
 }

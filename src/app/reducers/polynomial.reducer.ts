@@ -1,5 +1,11 @@
 import {createReducer, on} from "@ngrx/store";
-import {loadPolynomials, loadPolynomialsFailure, loadPolynomialsSuccess} from "./polynomial.actions";
+import {
+  loadFunctionRange,
+  loadGraphWithData,
+  loadPolynomials,
+  loadPolynomialsFailure,
+  loadPolynomialsSuccess, loadVariables
+} from "./polynomial.actions";
 import {initialAppState} from "../polynomials/initialValues/polynomial.initialValues";
 
 export const polynomialReducer = createReducer(
@@ -18,5 +24,17 @@ export const polynomialReducer = createReducer(
     ...state,
     isLoading: false,
     error: error
-  }))
+  })),
+  on(loadGraphWithData, (state, { graphData }) => ({
+    ...state,
+    graphData: graphData
+  })),
+  on(loadFunctionRange, (state, { range }) => ({
+    ...state,
+    currentRange: range
+  })),
+  on(loadVariables, (state, { variables }) => ({
+    ...state,
+    currentVariables: variables
+  })),
 )

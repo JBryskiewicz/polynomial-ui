@@ -3,7 +3,7 @@
 
     <section class="function-section">
       <app-function-graph
-        [data]="data"
+        [data]="(data$ | async)!"
       />
     </section>
 
@@ -12,7 +12,7 @@
     <section class="variables-section">
       <!-- TODO app-data and app-range are technically the same component, unify them   -->
       <div class="variable-box">
-        <div *ngFor="let variable of variables; let i = index">
+        <div *ngFor="let variable of variables$ | async; let i = index">
           <app-data-input
             [variable]="variable"
             (valueChange)="onVariableChange($event, i)"
@@ -21,7 +21,7 @@
       </div>
 
       <div class="range-box">
-        <div *ngFor="let range of range; let i = index">
+        <div *ngFor="let range of range$ | async; let i = index">
           <app-range-input
             [index]="i"
             [range]="range"
@@ -31,8 +31,8 @@
       </div>
 
       <app-variable-buttons
-        [variables]="variables"
-        [range]="range"
+        [variables]="(variables$ | async)!"
+        [range]="(range$ | async)!"
       />
     </section>
 

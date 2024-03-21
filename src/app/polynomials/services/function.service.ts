@@ -1,17 +1,21 @@
 import {Injectable} from "@angular/core";
 import {GraphData, Variable} from "../types/types";
+import {Store} from "@ngrx/store";
+import {loadGraphWithData} from "../../reducers/polynomial.actions";
 
 @Injectable({
   providedIn: 'root'
 })
 export class FunctionService {
 
-  populateGraph(variables: Variable[], range: number[]): GraphData[] {
-    let data: GraphData[] = [];
+  constructor(private store: Store) { }
+
+  populateGraph(variables: Variable[], range: number[]): void {
+    let graphData: GraphData[] = [];
     for (let i = range[0]; i <= range[1]; i++) {
-      data.push({x: i, value: this.calculateFunction(variables, i)})
+      graphData.push({x: i, value: this.calculateFunction(variables, i)})
     }
-    return data;
+    this.store.dispatch(loadGraphWithData({ graphData }))
   }
 
   calculateFunction(variables: Variable[], x: number): number {

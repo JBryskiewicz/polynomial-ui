@@ -16,30 +16,20 @@ import {MatCard, MatCardContent} from "@angular/material/card";
 export class FunctionGraphComponent implements OnInit {
 
   @Input() data: GraphData[] = [];
+
   constructor() { }
 
   chart: any;
-
-  // Hardcoded for preview
-  initData: GraphData[] = [
-    {x: -2, value: 100},
-    {x: -1.5, value: 10},
-    {x: -1, value: 0},
-    {x: 0, value: -5},
-    {x: 1, value: 0},
-    {x: 1.5, value: 10},
-    {x: 2, value: 100}
-  ]
 
   ngOnInit() {
     this.chart = new Chart('canvas', {
       type: 'line',
       data: {
-        labels: this.initData.map((row) => row.x),
+        labels: this.data.map((row) => row.x),
         datasets: [
           {
             label: 'f(x)',
-            data: this.initData.map((row) => row.value),
+            data: this.data.map((row) => row.value),
             tension: 0
           }
         ]
