@@ -1,0 +1,22 @@
+.polynomial-list-box {
+  width: 30rem;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+
+
+  .poly-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: azure;
+    border-radius: .25rem;
+    padding: .5rem;
+
+
+    div {
+      display: flex;
+      column-gap: .5rem;
+    }
+  }
+}

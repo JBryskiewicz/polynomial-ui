@@ -1,0 +1,26 @@
+<div class="polynomial-list-box">
+  <div *ngFor="let polynomial of polynomials">
+    <mat-card>
+      <mat-card-content class="poly-item">
+        <p>
+          Polynomial No.{{ polynomial.id }}
+        </p>
+        <div>
+          <button
+            mat-raised-button
+            color="accent"
+          >
+            View
+          </button>
+          <button
+            mat-raised-button
+            color="warn"
+            (click)="polynomialDelete(polynomial.id)"
+          >
+            Delete
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

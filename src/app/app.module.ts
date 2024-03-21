@@ -10,7 +10,7 @@ import {PolynomialsModule} from "./polynomials/polynomials.module";
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    PolynomialsModule,
+    PolynomialsModule
   ],
   providers: [],
 })

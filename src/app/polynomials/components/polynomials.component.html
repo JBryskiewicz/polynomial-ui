@@ -1,42 +1,55 @@
 <main class="main">
-  <section class="variables-section">
-    <div class="input-box" *ngFor="let variable of variables; let i = index">
-      <app-data-input
-        [variable]="variable"
-        (valueChange)="onVariableChange($event, i)"
+  <div class="left-side">
+
+    <section class="function-section">
+      <app-function-graph
+        [data]="data"
       />
-    </div>
-    <div class="input-box" *ngFor="let range of range; let i = index">
-      <app-range-input
-        [index]="i"
-        [range]="range"
-        (valueChange)="onRangeChange($event, i)"
-      />
-    </div>
-    <app-variable-buttons [variables]="variables"/>
-  </section>
-  <section class="function-section">
-    <div class="formula-box">
-      <h3>f(x) = an*x^n + an-1*x^n-1 + ... + a0*x^0</h3>
-    </div>
-    <div class="graph-box">
-    </div>
-  </section>
-  <section class="polynomials-section">
-    <div class="recent-poly-box">
-      <h2>Recently created polynomials</h2>
-    </div>
-    <div class="button-list-box">
-      <div *ngFor="let polynomial of polynomials">
-        <div class="poly-button">
-          <p>
-            {{ polynomial.id }}
-          </p>
-          <button (click)="polynomialDelete(polynomial.id)">
-            delete
-          </button>
+    </section>
+
+    <!-- ### Section border ### -->
+
+    <section class="variables-section">
+      <!-- TODO app-data and app-range are technically the same component, unify them   -->
+      <div class="variable-box">
+        <div *ngFor="let variable of variables; let i = index">
+          <app-data-input
+            [variable]="variable"
+            (valueChange)="onVariableChange($event, i)"
+          />
         </div>
       </div>
-    </div>
-  </section>
+
+      <div class="range-box">
+        <div *ngFor="let range of range; let i = index">
+          <app-range-input
+            [index]="i"
+            [range]="range"
+            (valueChange)="onRangeChange($event, i)"
+          />
+        </div>
+      </div>
+
+      <app-variable-buttons
+        [variables]="variables"
+        [range]="range"
+      />
+    </section>
+
+  </div>
+
+  <!-- ### Section border ### -->
+
+  <div class="right-side">
+    <section class="polynomials-section">
+      <mat-card>
+        <mat-card-content class="recent-poly-box">
+          <h2>Recently created polynomials</h2>
+        </mat-card-content>
+      </mat-card>
+      <app-recent-polynomials
+        [polynomials]="(polynomials$ | async)!"
+      />
+    </section>
+  </div>
 </main>

@@ -5,7 +5,7 @@ import {PolynomialsComponent} from "./components/polynomials.component";
 @NgModule({
   imports: [
     CommonModule,
-    PolynomialsComponent,
+    PolynomialsComponent
   ],
   exports: [PolynomialsComponent],
   providers: [],

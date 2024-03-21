@@ -16,13 +16,17 @@ import {PolynomialService} from "../../services/polynomial.service";
 })
 export class VariableButtonsComponent {
   @Input() variables: Variable[] = [];
+  @Input() range: number[] = [];
 
   constructor(private polyService: PolynomialService) { }
 
   saveToDataBase() {
-    const polynomial: Polynomial = { variables: this.variables }
+    const polynomial: Polynomial = {
+      variables: this.variables,
+      rangeStart: this.range[0],
+      rangeEnd: this.range[1]
+    }
     this.polyService.savePolynomial(polynomial);
-    //getAllPolynomials from service, either to global state or pass with emit
   }
 
   addVariable(): void  {

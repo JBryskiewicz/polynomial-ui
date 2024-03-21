@@ -8,13 +8,14 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import {metaReducers, reducers} from "./reducers";
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideClientHydration(),
     provideHttpClient(withFetch()), provideAnimationsAsync(),
-    provideStore(),
+    provideStore(reducers, { metaReducers }),
     provideEffects(),
     provideStoreDevtools({ maxAge: 25, logOnly: isDevMode() })
 ]
