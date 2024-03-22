@@ -66,10 +66,4 @@ export class PolynomialsComponent implements OnInit {
     // console.log(parseFloat(newValue));
     // this.functionService.populateGraph(this.variables, this.range$);
   }
-
-  onRangeChange(newValue: string, index: number) {
-    // this.range$[index] = parseFloat(newValue);
-    // this.functionService.populateGraph(this.variables, this.range$);
-  }
-
 }
