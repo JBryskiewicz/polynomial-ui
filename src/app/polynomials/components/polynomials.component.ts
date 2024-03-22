@@ -8,7 +8,6 @@ import {VariableButtonsComponent} from "./variable-buttons/variable-buttons.comp
 import {PolynomialService} from "../services/polynomial.service";
 import {RangeInputComponent} from "./range-input/range-input.component";
 import {FunctionGraphComponent} from "./function-graph/function-graph.component";
-import {FunctionService} from "../services/function.service";
 import {Store} from "@ngrx/store";
 import {loadPolynomials} from "../../reducers/polynomial.actions";
 import {MatCard, MatCardContent} from "@angular/material/card";
@@ -50,7 +49,6 @@ export class PolynomialsComponent implements OnInit {
 
   constructor(
     private polyService: PolynomialService,
-    private functionService: FunctionService,
     private store: Store<{ polynomials: PolynomialEntity[] }>
   ) { }
 
@@ -59,11 +57,4 @@ export class PolynomialsComponent implements OnInit {
       this.polyService.loadPolynomialsAndDispatch();
   }
 
-  // TODO implement on change global state range & variables ,
-  //  so graph adjusts according to the global state.
-  onVariableChange(newValue: string, index: number) {
-    // this.variables[index].value = parseFloat(newValue);
-    // console.log(parseFloat(newValue));
-    // this.functionService.populateGraph(this.variables, this.range$);
-  }
 }

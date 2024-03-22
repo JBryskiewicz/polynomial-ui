@@ -10,12 +10,10 @@
     <!-- ### Section border ### -->
 
     <section class="variables-section">
-      <!-- TODO app-data and app-range are technically the same component, unify them   -->
       <div class="variable-box">
-        <div *ngFor="let variable of variables$ | async; let i = index">
+        <div *ngFor="let variable of variables$ | async">
           <app-data-input
             [variable]="variable"
-            (valueChange)="onVariableChange($event, i)"
           />
         </div>
       </div>
@@ -26,7 +24,6 @@
             [index]="i"
             [range]="range"
           />
-<!--            (valueChange)="onRangeChange($event, i)"-->
         </div>
       </div>
 

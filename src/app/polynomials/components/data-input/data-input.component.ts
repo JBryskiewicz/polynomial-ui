@@ -1,8 +1,10 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, Input, } from '@angular/core';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
 import {Variable} from "../../types/types";
+import {VariablesService} from "../../services/variables.service";
+
 @Component({
   selector: 'app-data-input',
   standalone: true,
@@ -15,17 +17,17 @@ import {Variable} from "../../types/types";
   styleUrl: './data-input.component.scss'
 })
 export class DataInputComponent {
+
   @Input() variable: Variable = {position: 0, value: 0};
-  @Output() valueChange: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor() { }
-
-  // TODO proper validation for not a number values
-  onInputChange(event: any){
-    if(parseFloat(event.target.value) !== 0){
-      this.valueChange.emit(event.target.value);
-    } else {
-      console.log("variable cannot be 0")
-    }
+  constructor(private varService: VariablesService) {
   }
+
+  onInputChange(event: any) {
+    this.varService.updateVariable(
+      this.variable.position,
+      parseFloat(event.target.value)
+    )
+  }
+
 }
