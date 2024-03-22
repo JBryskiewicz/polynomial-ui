@@ -6,12 +6,12 @@ import {PolynomialService} from "../../services/polynomial.service";
 import {Store} from "@ngrx/store";
 import {
   selectCurrentPolynomial,
-  selectCurrentRange,
   selectCurrentVariables
 } from "../../../reducers/polynomial.selectors";
 import {Observable, take} from "rxjs";
 import {VariablesService} from "../../services/variables.service";
 import {RESET_POLYNOMIAL} from "../../../reducers/polynomial.actions";
+import {AsyncPipe, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-variable-buttons',
@@ -19,6 +19,8 @@ import {RESET_POLYNOMIAL} from "../../../reducers/polynomial.actions";
   imports: [
     MatIcon,
     MatMiniFabButton,
+    AsyncPipe,
+    NgIf,
   ],
   templateUrl: './variable-buttons.component.html',
   styleUrl: './variable-buttons.component.scss'
@@ -26,12 +28,16 @@ import {RESET_POLYNOMIAL} from "../../../reducers/polynomial.actions";
 export class VariableButtonsComponent {
   variables$?: Observable<Variable[]> = this.store.select(selectCurrentVariables);
   polynomial$?: Observable<Polynomial> = this.store.select(selectCurrentPolynomial);
+  id: number = 0;
 
   constructor(
     private store: Store,
     private polyService: PolynomialService,
     private varService: VariablesService
   ) {
+    this.polynomial$!.subscribe(poly => {
+      this.id = poly.id!;
+    })
   }
 
   saveToDataBase() {
@@ -43,6 +49,12 @@ export class VariableButtonsComponent {
         rangeEnd: poly.rangeEnd
       }
       this.polyService.savePolynomial(polynomial);
+    })
+  }
+
+  editPolynomial(): void {
+    this.polynomial$!.subscribe(polynomial => {
+      this.polyService.updatePolynomial(polynomial.id!, polynomial);
     })
   }
 

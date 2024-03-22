@@ -19,7 +19,7 @@
       <mat-icon>exposure_neg_1</mat-icon>
     </button>
   </div>
-  <div class="button-container">
+  <div *ngIf="!(polynomial$ | async)?.id" class="button-container">
     <button
       mat-mini-fab
       color="accent"
@@ -29,6 +29,17 @@
       <span>Save</span>
     </button>
   </div>
+  <div *ngIf="(polynomial$ | async)?.id" class="button-container">
+    <button
+      mat-mini-fab
+      color="accent"
+      aria-label="Example icon button with a plus one icon"
+      (click)="editPolynomial()"
+    >
+      <span>Edit</span>
+    </button>
+  </div>
+
   <div class="button-container">
     <button
       mat-mini-fab

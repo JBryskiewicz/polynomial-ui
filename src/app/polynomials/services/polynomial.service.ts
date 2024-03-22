@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Polynomial} from "../types/types";
-import {Observable} from "rxjs";
+import {Observable, take} from "rxjs";
 import {Store} from "@ngrx/store";
 import {
   loadCurrentPolynomial,
@@ -48,7 +48,9 @@ export class PolynomialService {
           //   this.store.dispatch(loadCurrentPolynomial({ polynomial }));
           // })
         },
-        error: (error) => console.log(error)
+        error: (error) => {
+          console.log(error)
+        }
       });
   }
 
@@ -63,11 +65,23 @@ export class PolynomialService {
       });
   }
 
-  viewPolynomial(id: number):void {
+  viewPolynomial(id: number): void {
     this.store.select(selectPolynomialList)
       .subscribe(list => {
         const polynomial: Polynomial = list.find(p => p.id === id)!;
-        this.store.dispatch(loadCurrentPolynomial({ polynomial }));
+        this.store.dispatch(loadCurrentPolynomial({polynomial}));
       })
+  }
+
+  updatePolynomial(id: number, toUpdatePolynomial: Polynomial): void {
+    this.http.put(`${this.polynomialURL}/${id}`, toUpdatePolynomial)
+      .subscribe({
+        next: () => {
+          console.log('updated successfully')
+        },
+        error: (error) => {
+          console.log(error)
+        }
+      });
   }
 }
