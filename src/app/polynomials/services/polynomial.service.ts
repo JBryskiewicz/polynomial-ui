@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Polynomial, PolynomialEntity} from "../types/types";
+import {Polynomial} from "../types/types";
 import {Observable} from "rxjs";
 import {Store} from "@ngrx/store";
 import {loadPolynomials, loadPolynomialsFailure, loadPolynomialsSuccess} from "../../reducers/polynomial.actions";
@@ -14,8 +14,8 @@ export class PolynomialService {
   constructor(private http: HttpClient, private store: Store) {
   }
 
-  getPolynomialsFromApi(): Observable<PolynomialEntity[]> {
-    return this.http.get<PolynomialEntity[]>(this.polynomialURL);
+  getPolynomialsFromApi(): Observable<Polynomial[]> {
+    return this.http.get<Polynomial[]>(this.polynomialURL);
   }
 
   loadPolynomialsAndDispatch() {

@@ -2,7 +2,7 @@ import {Component, Input} from '@angular/core';
 import {MatButton} from "@angular/material/button";
 import {MatCard, MatCardContent} from "@angular/material/card";
 import {NgForOf} from "@angular/common";
-import {PolynomialEntity} from "../../types/types";
+import {Polynomial} from "../../types/types";
 import {PolynomialService} from "../../services/polynomial.service";
 
 @Component({
@@ -19,7 +19,7 @@ import {PolynomialService} from "../../services/polynomial.service";
 })
 export class RecentPolynomialsComponent {
 
-  @Input() polynomials: PolynomialEntity[] = [];
+  @Input() polynomials: Polynomial[] = [];
 
   constructor(private polyService: PolynomialService) { }
   polynomialDelete(id: number){

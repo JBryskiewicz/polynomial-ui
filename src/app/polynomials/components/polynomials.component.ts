@@ -3,7 +3,7 @@ import {AsyncPipe, NgForOf} from "@angular/common";
 import {DataInputComponent} from "./data-input/data-input.component";
 import {MatIcon} from "@angular/material/icon";
 import {MatButton, MatMiniFabButton} from "@angular/material/button";
-import {GraphData, PolynomialEntity, Variable} from "../types/types";
+import {GraphData, Polynomial, Variable} from "../types/types";
 import {VariableButtonsComponent} from "./variable-buttons/variable-buttons.component";
 import {PolynomialService} from "../services/polynomial.service";
 import {RangeInputComponent} from "./range-input/range-input.component";
@@ -43,13 +43,13 @@ import {FunctionService} from "../services/function.service";
 export class PolynomialsComponent implements OnInit {
   variables$?: Observable<Variable[]> = this.store.select(selectCurrentVariables);
   range$?: Observable<number[]> = this.store.select(selectCurrentRange);
-  polynomials$?: Observable<PolynomialEntity[]> = this.store.select(selectPolynomialList);
+  polynomials$?: Observable<Polynomial[]> = this.store.select(selectPolynomialList);
   data$?: Observable<GraphData[]> = this.store.select(selectGraphData);
 
   constructor(
     private polyService: PolynomialService,
     private functionService: FunctionService,
-    private store: Store<{ polynomials: PolynomialEntity[] }>
+    private store: Store<{ polynomials: Polynomial[] }>
   ) { }
 
   ngOnInit(): void {

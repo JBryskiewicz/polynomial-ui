@@ -4,22 +4,19 @@ import {Variable} from "../types/types";
 import {loadVariables} from "../../reducers/polynomial.actions";
 import {selectCurrentVariables} from "../../reducers/polynomial.selectors";
 import {take} from "rxjs";
-import {FunctionService} from "./function.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class VariablesService {
 
-  constructor(
-    private store: Store,
-    private functionService: FunctionService) { }
+  constructor(private store: Store,) { }
 
   addToCurrentVariables(currentVariables: Variable[]): void {
     const position = currentVariables.length;
     const variables: Variable[] = [
       ...currentVariables,
-      {position: position, value: 1}
+      {id: null, position: position, value: 1}
     ]
     this.store.dispatch(loadVariables({variables}))
   }
@@ -37,9 +34,9 @@ export class VariablesService {
       .subscribe(data => {
         let variables: Variable[] = [...data];
         if (value !== 0 && !Number.isNaN(value)) {
-          variables[position] = {position: position, value: value}
+          variables[position] = {id: variables[position].id, position: position, value: value}
         } else {
-          variables[position] = {position: position, value: 1};
+          variables[position] = {id: variables[position].id, position: position, value: 1};
         }
         this.store.dispatch(loadVariables({variables}))
       })

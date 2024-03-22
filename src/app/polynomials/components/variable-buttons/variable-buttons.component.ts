@@ -41,6 +41,7 @@ export class VariableButtonsComponent {
     })
 
     const polynomial: Polynomial = {
+      id: null,
       variables: variables,
       rangeStart: range[0],
       rangeEnd: range[1]

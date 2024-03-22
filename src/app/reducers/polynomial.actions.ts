@@ -1,11 +1,11 @@
 import {createAction, props} from "@ngrx/store";
-import {GraphData, PolynomialEntity, Variable} from "../polynomials/types/types";
+import {GraphData, Polynomial, Variable} from "../polynomials/types/types";
 
 export const loadPolynomials = createAction('[Polynomials] Load');
 
 export const loadPolynomialsSuccess = createAction(
   '[Polynomials] Load Success',
-  props<{ polynomials: PolynomialEntity[] }>()
+  props<{ polynomials: Polynomial[] }>()
 );
 
 export const loadPolynomialsFailure = createAction(

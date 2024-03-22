@@ -18,7 +18,7 @@ import {VariablesService} from "../../services/variables.service";
 })
 export class DataInputComponent {
 
-  @Input() variable: Variable = {position: 0, value: 0};
+  @Input() variable: Variable = {id: null, position: 0, value: 0};
 
   constructor(private varService: VariablesService) {
   }
