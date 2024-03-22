@@ -14,11 +14,11 @@ import {MatCard, MatCardContent} from "@angular/material/card";
 import {RecentPolynomialsComponent} from "./recent-polynomials/recent-polynomials.component";
 import {
   selectCurrentRange,
-  selectCurrentVariables,
-  selectGraphData,
+  selectCurrentVariables, selectGraphData,
   selectPolynomialList
 } from "../../reducers/polynomial.selectors";
-import {Observable} from "rxjs";
+import {combineLatestWith, Observable} from "rxjs";
+import {FunctionService} from "../services/function.service";
 
 @Component({
   selector: 'app-polynomials',
@@ -41,20 +41,25 @@ import {Observable} from "rxjs";
   styleUrl: './polynomials.component.scss'
 })
 export class PolynomialsComponent implements OnInit {
-  range$?: Observable<number[]> = this.store.select(selectCurrentRange);
   variables$?: Observable<Variable[]> = this.store.select(selectCurrentVariables);
-
+  range$?: Observable<number[]> = this.store.select(selectCurrentRange);
   polynomials$?: Observable<PolynomialEntity[]> = this.store.select(selectPolynomialList);
   data$?: Observable<GraphData[]> = this.store.select(selectGraphData);
 
   constructor(
     private polyService: PolynomialService,
+    private functionService: FunctionService,
     private store: Store<{ polynomials: PolynomialEntity[] }>
   ) { }
 
   ngOnInit(): void {
       this.store.dispatch(loadPolynomials());
       this.polyService.loadPolynomialsAndDispatch();
-  }
 
+      this.variables$!.pipe(
+        combineLatestWith(this.range$!)
+      ).subscribe(([variables, range]) => {
+        this.functionService.populateGraph(variables, range);
+      })
+  }
 }

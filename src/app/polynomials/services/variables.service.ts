@@ -4,14 +4,16 @@ import {Variable} from "../types/types";
 import {loadVariables} from "../../reducers/polynomial.actions";
 import {selectCurrentVariables} from "../../reducers/polynomial.selectors";
 import {take} from "rxjs";
+import {FunctionService} from "./function.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class VariablesService {
 
-  constructor(private store: Store) {
-  }
+  constructor(
+    private store: Store,
+    private functionService: FunctionService) { }
 
   addToCurrentVariables(currentVariables: Variable[]): void {
     const position = currentVariables.length;
