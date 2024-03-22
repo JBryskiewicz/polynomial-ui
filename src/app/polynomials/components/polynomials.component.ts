@@ -10,7 +10,6 @@ import {RangeInputComponent} from "./range-input/range-input.component";
 import {FunctionGraphComponent} from "./function-graph/function-graph.component";
 import {FunctionService} from "../services/function.service";
 import {Store} from "@ngrx/store";
-import {initialVariables} from "../initialValues/polynomial.initialValues";
 import {loadPolynomials} from "../../reducers/polynomial.actions";
 import {MatCard, MatCardContent} from "@angular/material/card";
 import {RecentPolynomialsComponent} from "./recent-polynomials/recent-polynomials.component";

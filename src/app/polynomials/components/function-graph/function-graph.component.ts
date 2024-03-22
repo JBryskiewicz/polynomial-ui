@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {AfterViewInit, Component, Input} from '@angular/core';
 import Chart from 'chart.js/auto';
 import {GraphData} from "../../types/types";
 import {MatCard, MatCardContent} from "@angular/material/card";
@@ -13,7 +13,7 @@ import {MatCard, MatCardContent} from "@angular/material/card";
   templateUrl: './function-graph.component.html',
   styleUrl: './function-graph.component.scss'
 })
-export class FunctionGraphComponent implements OnInit {
+export class FunctionGraphComponent implements AfterViewInit {
 
   @Input() data: GraphData[] = [];
 
@@ -21,7 +21,7 @@ export class FunctionGraphComponent implements OnInit {
 
   chart: any;
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.chart = new Chart('canvas', {
       type: 'line',
       data: {

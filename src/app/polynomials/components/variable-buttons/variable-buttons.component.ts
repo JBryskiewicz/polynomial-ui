@@ -1,8 +1,12 @@
-import {Component, Input} from '@angular/core';
+import {Component} from '@angular/core';
 import {Variable, Polynomial} from "../../types/types";
 import {MatIcon} from "@angular/material/icon";
 import {MatMiniFabButton} from "@angular/material/button";
 import {PolynomialService} from "../../services/polynomial.service";
+import {Store} from "@ngrx/store";
+import {selectCurrentRange, selectCurrentVariables} from "../../../reducers/polynomial.selectors";
+import {Observable, take} from "rxjs";
+import {VariablesService} from "../../services/variables.service";
 
 @Component({
   selector: 'app-variable-buttons',
@@ -15,26 +19,52 @@ import {PolynomialService} from "../../services/polynomial.service";
   styleUrl: './variable-buttons.component.scss'
 })
 export class VariableButtonsComponent {
-  @Input() variables: Variable[] = [];
-  @Input() range: number[] = [];
+  variables$?: Observable<Variable[]> = this.store.select(selectCurrentVariables);
+  range$?: Observable<number[]> = this.store.select(selectCurrentRange);
 
-  constructor(private polyService: PolynomialService) { }
+  constructor(
+    private store: Store,
+    private polyService: PolynomialService,
+    private varService: VariablesService
+  ) {
+  }
 
   saveToDataBase() {
+    let variables: Variable[] = [];
+    const varSub = this.variables$!.subscribe(data => {
+      variables = data
+    });
+
+    let range: number[] = [];
+    const rangeSub = this.range$!.subscribe(data => {
+      range = data;
+    })
+
     const polynomial: Polynomial = {
-      variables: this.variables,
-      rangeStart: this.range[0],
-      rangeEnd: this.range[1]
+      variables: variables,
+      rangeStart: range[0],
+      rangeEnd: range[1]
     }
+
+    varSub.unsubscribe();
+    rangeSub.unsubscribe();
+
     this.polyService.savePolynomial(polynomial);
   }
 
-  addVariable(): void  {
-    this.variables.push({position: this.variables.length, value: 1})
+  addVariable(): void {
+    this.variables$!
+      .pipe(take(1))
+      .subscribe(variables => {
+        this.varService.addToCurrentVariables(variables)
+      });
   }
 
   removeVariable(): void {
-    if (this.variables.length > 3) this.variables.pop();
+    this.variables$!
+      .pipe(take(1))
+      .subscribe(variables => {
+        this.varService.removeFromCurrentVariables(variables)
+      })
   }
-
 }
