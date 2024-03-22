@@ -4,9 +4,14 @@ import {MatIcon} from "@angular/material/icon";
 import {MatMiniFabButton} from "@angular/material/button";
 import {PolynomialService} from "../../services/polynomial.service";
 import {Store} from "@ngrx/store";
-import {selectCurrentRange, selectCurrentVariables} from "../../../reducers/polynomial.selectors";
+import {
+  selectCurrentPolynomial,
+  selectCurrentRange,
+  selectCurrentVariables
+} from "../../../reducers/polynomial.selectors";
 import {Observable, take} from "rxjs";
 import {VariablesService} from "../../services/variables.service";
+import {RESET_POLYNOMIAL} from "../../../reducers/polynomial.actions";
 
 @Component({
   selector: 'app-variable-buttons',
@@ -20,7 +25,7 @@ import {VariablesService} from "../../services/variables.service";
 })
 export class VariableButtonsComponent {
   variables$?: Observable<Variable[]> = this.store.select(selectCurrentVariables);
-  range$?: Observable<number[]> = this.store.select(selectCurrentRange);
+  polynomial$?: Observable<Polynomial> = this.store.select(selectCurrentPolynomial);
 
   constructor(
     private store: Store,
@@ -30,27 +35,15 @@ export class VariableButtonsComponent {
   }
 
   saveToDataBase() {
-    let variables: Variable[] = [];
-    const varSub = this.variables$!.subscribe(data => {
-      variables = data
-    });
-
-    let range: number[] = [];
-    const rangeSub = this.range$!.subscribe(data => {
-      range = data;
+    this.polynomial$!.subscribe(poly => {
+      const polynomial: Polynomial = {
+        id: null,
+        variables: poly.variables,
+        rangeStart: poly.rangeStart,
+        rangeEnd: poly.rangeEnd
+      }
+      this.polyService.savePolynomial(polynomial);
     })
-
-    const polynomial: Polynomial = {
-      id: null,
-      variables: variables,
-      rangeStart: range[0],
-      rangeEnd: range[1]
-    }
-
-    varSub.unsubscribe();
-    rangeSub.unsubscribe();
-
-    this.polyService.savePolynomial(polynomial);
   }
 
   addVariable(): void {
@@ -67,5 +60,9 @@ export class VariableButtonsComponent {
       .subscribe(variables => {
         this.varService.removeFromCurrentVariables(variables)
       })
+  }
+
+  resetCurrentPolynomial(): void {
+    this.store.dispatch(RESET_POLYNOMIAL());
   }
 }

@@ -22,7 +22,12 @@ export class RecentPolynomialsComponent {
   @Input() polynomials: Polynomial[] = [];
 
   constructor(private polyService: PolynomialService) { }
-  polynomialDelete(id: number){
+
+  polynomialView(id: number): void {
+    this.polyService.viewPolynomial(id);
+  }
+
+  polynomialDelete(id: number): void {
     this.polyService.deletePolynomial(id);
   }
 }

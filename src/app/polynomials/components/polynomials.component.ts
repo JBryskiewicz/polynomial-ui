@@ -18,9 +18,8 @@ import {
   selectCurrentVariables, selectGraphData,
   selectPolynomialList
 } from "../../reducers/polynomial.selectors";
-import {combineLatestWith, Observable, take} from "rxjs";
+import {Observable} from "rxjs";
 import {FunctionService} from "../services/function.service";
-import {subscribe} from "node:diagnostics_channel";
 
 @Component({
   selector: 'app-polynomials',

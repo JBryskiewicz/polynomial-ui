@@ -3,7 +3,13 @@ import {HttpClient} from "@angular/common/http";
 import {Polynomial} from "../types/types";
 import {Observable} from "rxjs";
 import {Store} from "@ngrx/store";
-import {loadPolynomials, loadPolynomialsFailure, loadPolynomialsSuccess} from "../../reducers/polynomial.actions";
+import {
+  loadCurrentPolynomial,
+  loadPolynomials,
+  loadPolynomialsFailure,
+  loadPolynomialsSuccess
+} from "../../reducers/polynomial.actions";
+import {selectCurrentPolynomial, selectPolynomialList} from "../../reducers/polynomial.selectors";
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +40,13 @@ export class PolynomialService {
       .subscribe({
         next: () => {
           this.loadPolynomialsAndDispatch();
-          console.log('saved successfully')
+          console.log('saved successfully');
+
+          // TODO causes unwanted behaviour, rework it before implementing.
+          // this.store.select(selectPolynomialList).subscribe(list => {
+          //   const polynomial = list[0];
+          //   this.store.dispatch(loadCurrentPolynomial({ polynomial }));
+          // })
         },
         error: (error) => console.log(error)
       });
@@ -49,5 +61,13 @@ export class PolynomialService {
         },
         error: (error) => console.log(error),
       });
+  }
+
+  viewPolynomial(id: number):void {
+    this.store.select(selectPolynomialList)
+      .subscribe(list => {
+        const polynomial: Polynomial = list.find(p => p.id === id)!;
+        this.store.dispatch(loadCurrentPolynomial({ polynomial }));
+      })
   }
 }

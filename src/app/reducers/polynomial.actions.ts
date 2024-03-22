@@ -32,3 +32,7 @@ export const loadCurrentPolynomial = createAction(
   '[Polynomial] Current Polynomial Loaded',
         props<{ polynomial: Polynomial }>()
 )
+
+export const RESET_POLYNOMIAL = createAction(
+  '[Polynomial] Current Polynomial set to default'
+)
