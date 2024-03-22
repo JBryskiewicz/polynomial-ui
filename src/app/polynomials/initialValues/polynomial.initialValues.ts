@@ -30,8 +30,12 @@ const calculateFunction = (variables: Variable[], x: number): number => {
 export const initialAppState: AppStateInterface = {
   isLoading: false,
   polynomials: [],
-  currentVariables: [ ... initialVariables ],
-  currentRange: [ ...initialRange ],
+  currentPolynomial: {
+    id: null,
+    variables: [ ...initialVariables ],
+    rangeStart: initialRange[0],
+    rangeEnd: initialRange[1]
+  },
   graphData: initialGraphData(initialVariables, initialRange),
   error: null
 };

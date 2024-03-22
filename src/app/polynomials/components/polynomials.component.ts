@@ -13,12 +13,14 @@ import {loadPolynomials} from "../../reducers/polynomial.actions";
 import {MatCard, MatCardContent} from "@angular/material/card";
 import {RecentPolynomialsComponent} from "./recent-polynomials/recent-polynomials.component";
 import {
+  selectCurrentPolynomial,
   selectCurrentRange,
   selectCurrentVariables, selectGraphData,
   selectPolynomialList
 } from "../../reducers/polynomial.selectors";
-import {combineLatestWith, Observable} from "rxjs";
+import {combineLatestWith, Observable, take} from "rxjs";
 import {FunctionService} from "../services/function.service";
+import {subscribe} from "node:diagnostics_channel";
 
 @Component({
   selector: 'app-polynomials',
@@ -41,10 +43,12 @@ import {FunctionService} from "../services/function.service";
   styleUrl: './polynomials.component.scss'
 })
 export class PolynomialsComponent implements OnInit {
+
   variables$?: Observable<Variable[]> = this.store.select(selectCurrentVariables);
   range$?: Observable<number[]> = this.store.select(selectCurrentRange);
   polynomials$?: Observable<Polynomial[]> = this.store.select(selectPolynomialList);
   data$?: Observable<GraphData[]> = this.store.select(selectGraphData);
+  polynomial$?: Observable<Polynomial> = this.store.select(selectCurrentPolynomial);
 
   constructor(
     private polyService: PolynomialService,
@@ -56,10 +60,12 @@ export class PolynomialsComponent implements OnInit {
       this.store.dispatch(loadPolynomials());
       this.polyService.loadPolynomialsAndDispatch();
 
-      this.variables$!.pipe(
-        combineLatestWith(this.range$!)
-      ).subscribe(([variables, range]) => {
-        this.functionService.populateGraph(variables, range);
-      })
+      this.polynomial$!
+        .subscribe( (polynomial) => {
+          this.functionService.populateGraph(
+            polynomial.variables,
+            [polynomial.rangeStart, polynomial.rangeEnd]
+          )
+        });
   }
 }

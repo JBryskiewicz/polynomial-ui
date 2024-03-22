@@ -19,13 +19,21 @@ export const getCurrentRange = createFeatureSelector<AppStateInterface>('polynom
 
 export const selectCurrentRange = createSelector(
   getCurrentRange,
-  appState => appState.currentRange
+  appState => {
+    return [appState.currentPolynomial.rangeStart, appState.currentPolynomial.rangeEnd]
+  }
 );
 
 export const getCurrentVariables = createFeatureSelector<AppStateInterface>('polynomial');
 
 export const selectCurrentVariables = createSelector(
   getCurrentVariables,
-  appState => appState.currentVariables
+  appState => appState.currentPolynomial.variables
 );
 
+export const getCurrentPolynomial = createFeatureSelector<AppStateInterface>('polynomial');
+
+export const selectCurrentPolynomial = createSelector(
+  getCurrentPolynomial,
+  appState => appState.currentPolynomial
+);

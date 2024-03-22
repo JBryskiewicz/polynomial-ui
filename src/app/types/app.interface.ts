@@ -1,10 +1,9 @@
-import {GraphData, Polynomial, Variable} from "../polynomials/types/types";
+import {GraphData, Polynomial} from "../polynomials/types/types";
 
 export interface AppStateInterface {
   isLoading: boolean;
   polynomials: Polynomial[];
-  currentVariables: Variable[];
-  currentRange: number[];
+  currentPolynomial: Polynomial;
   graphData: GraphData[];
   error: string | null;
 }

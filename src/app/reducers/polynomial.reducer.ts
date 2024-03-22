@@ -1,5 +1,6 @@
 import {createReducer, on} from "@ngrx/store";
 import {
+  loadCurrentPolynomial,
   loadFunctionRange,
   loadGraphWithData,
   loadPolynomials,
@@ -29,12 +30,26 @@ export const polynomialReducer = createReducer(
     ...state,
     graphData: graphData
   })),
+  on(loadCurrentPolynomial, (state, { polynomial }) => ({
+    ...state,
+    currentPolynomial: polynomial
+  })),
   on(loadFunctionRange, (state, { range }) => ({
     ...state,
-    currentRange: range
+    currentPolynomial: {
+      id: state.currentPolynomial.id,
+      variables: state.currentPolynomial.variables,
+      rangeStart: range[0],
+      rangeEnd: range[1]
+    }
   })),
   on(loadVariables, (state, { variables }) => ({
     ...state,
-    currentVariables: variables
+    currentPolynomial: {
+      id: state.currentPolynomial.id,
+      variables: variables,
+      rangeStart: state.currentPolynomial.rangeStart,
+      rangeEnd: state.currentPolynomial.rangeEnd,
+    }
   })),
 )

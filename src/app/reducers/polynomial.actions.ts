@@ -27,3 +27,8 @@ export const loadVariables = createAction(
   '[Variables] Variables Loaded',
   props<{ variables: Variable[] }>()
 )
+
+export const loadCurrentPolynomial = createAction(
+  '[Polynomial] Current Polynomial Loaded',
+        props<{ polynomial: Polynomial }>()
+)
