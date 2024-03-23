@@ -56,8 +56,10 @@ export class PolynomialService {
       .subscribe({
         next: () => {
           this.reloadPolynomialsAndDispatch();
-          console.log('saved successfully:');
         },
+        complete: () => {
+          console.log('saved successfully:');
+        }
       });
   }
 
@@ -99,8 +101,13 @@ export class PolynomialService {
 
     this.http.put(`${this.polynomialURL}/${id}`, polynomial)
       .subscribe({
-        next: () => {
-          console.log('updated successfully')
+        next: (returnEntity) => {
+          // TODO PREVENT FROM INFINITE LOOPING
+          // const polynomial: Polynomial = returnEntity as Polynomial;
+          // this.store.dispatch(loadCurrentPolynomial({ polynomial }));
+        },
+        complete: () => {
+          console.log('updated successfully');
         }
       });
   }

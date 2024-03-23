@@ -29,8 +29,8 @@ export const polynomialReducer = createReducer(
     isLoading: false,
     error: error
   })),
-  on(reloadPolynomialsWithCurrentPolySuccess, (state, {polynomials}) => {
-    const currentPolynomial = (polynomials.length !== 0 ? polynomials[0] : initialAppState.currentPolynomial);
+  on(reloadPolynomialsWithCurrentPolySuccess, (state, { polynomials }) => {
+    const currentPolynomial = (polynomials.length !== 0) ? polynomials[0] : initialAppState.currentPolynomial;
     const nextState = {
       ...state,
       polynomials: polynomials,
