@@ -11,7 +11,6 @@ import {
   RESET_POLYNOMIAL
 } from "./polynomial.actions";
 import {initialAppState} from "../polynomials/initialValues/polynomial.initialValues";
-import {state} from "@angular/animations";
 
 export const polynomialReducer = createReducer(
   initialAppState,
@@ -20,7 +19,7 @@ export const polynomialReducer = createReducer(
     isLoading: true,
     error: null
   })),
-  on(loadPolynomialsSuccess, (state, { polynomials}) => ({
+  on(loadPolynomialsSuccess, (state, {polynomials}) => ({
     ...state,
     polynomials: polynomials,
     isLoading: false
@@ -30,21 +29,21 @@ export const polynomialReducer = createReducer(
     isLoading: false,
     error: error
   })),
-  on(reloadPolynomialsWithCurrentPolySuccess, (state, { polynomials}) => ({
-    ...state,
-    polynomials: polynomials,
-    currentPolynomial: polynomials[0],
-    isLoading: false
-  })),
-  on(loadGraphWithData, (state, { graphData }) => ({
+  on(reloadPolynomialsWithCurrentPolySuccess, (state, {polynomials}) => ({
+      ...state,
+      polynomials: polynomials,
+      currentPolynomial: polynomials[0],
+      isLoading: false
+    })),
+  on(loadGraphWithData, (state, {graphData}) => ({
     ...state,
     graphData: graphData
   })),
-  on(loadCurrentPolynomial, (state, { polynomial }) => ({
+  on(loadCurrentPolynomial, (state, {polynomial}) => ({
     ...state,
     currentPolynomial: polynomial
   })),
-  on(loadFunctionRange, (state, { range }) => ({
+  on(loadFunctionRange, (state, {range}) => ({
     ...state,
     currentPolynomial: {
       id: state.currentPolynomial.id,
@@ -53,7 +52,7 @@ export const polynomialReducer = createReducer(
       rangeEnd: range[1]
     }
   })),
-  on(loadVariables, (state, { variables }) => ({
+  on(loadVariables, (state, {variables}) => ({
     ...state,
     currentPolynomial: {
       id: state.currentPolynomial.id,

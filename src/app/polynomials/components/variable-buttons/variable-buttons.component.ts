@@ -36,6 +36,7 @@ export class VariableButtonsComponent {
     private varService: VariablesService
   ) {
     this.polynomial$!.subscribe(poly => {
+      console.log("INSIDE OF VARIABLE BUTTONS" + poly);
         this.id = poly.id!;
     })
   }

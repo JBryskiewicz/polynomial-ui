@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {AsyncPipe, NgForOf} from "@angular/common";
 import {DataInputComponent} from "./data-input/data-input.component";
 import {MatIcon} from "@angular/material/icon";
@@ -41,7 +41,7 @@ import {FunctionService} from "../services/function.service";
   templateUrl: './polynomials.component.html',
   styleUrl: './polynomials.component.scss'
 })
-export class PolynomialsComponent implements OnInit {
+export class PolynomialsComponent implements OnInit, OnChanges {
 
   variables$?: Observable<Variable[]> = this.store.select(selectCurrentVariables);
   range$?: Observable<number[]> = this.store.select(selectCurrentRange);
@@ -66,5 +66,8 @@ export class PolynomialsComponent implements OnInit {
             [polynomial.rangeStart, polynomial.rangeEnd]
           )
         });
+  }
+  ngOnChanges(): void {
+    this.polynomial$!.subscribe(p => console.log("INSIDE MAIN COMPONENT: " + p));
   }
 }

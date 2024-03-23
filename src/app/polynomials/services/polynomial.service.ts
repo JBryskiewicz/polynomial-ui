@@ -66,8 +66,10 @@ export class PolynomialService {
       .subscribe({
         next: () => {
           this.reloadPolynomialsAndDispatch();
-          console.log('deleted successfully');
         },
+        complete: () => {
+          console.log('deleted successfully');
+        }
       });
   }
 

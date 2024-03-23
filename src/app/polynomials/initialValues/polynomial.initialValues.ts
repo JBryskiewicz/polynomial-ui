@@ -9,7 +9,6 @@ export const initialVariables: Variable[] = [
 
 export const initialRange: number[] = [-100,100];
 
-// TODO Change this temporal band aid solution once better idea comes to mind
 const initialGraphData = (variables: Variable[], range: number[]): GraphData[] => {
   let graphData: GraphData[] = [];
   for (let i = range[0]; i <= range[1]; i++) {
@@ -25,7 +24,6 @@ const calculateFunction = (variables: Variable[], x: number): number => {
   })
   return result;
 }
-// TODO end of band aid solution
 
 export const initialAppState: AppStateInterface = {
   isLoading: false,

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnChanges} from '@angular/core';
 import {MatButton} from "@angular/material/button";
 import {MatCard, MatCardContent} from "@angular/material/card";
 import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
@@ -22,12 +22,16 @@ import {Store} from "@ngrx/store";
   templateUrl: './recent-polynomials.component.html',
   styleUrl: './recent-polynomials.component.scss'
 })
-export class RecentPolynomialsComponent {
+export class RecentPolynomialsComponent implements OnChanges{
 
   polynomial$?: Observable<Polynomial> = this.store.select(selectCurrentPolynomial);
   @Input() polynomials: Polynomial[] = [];
 
   constructor(private polyService: PolynomialService, private store: Store) { }
+
+  ngOnChanges(): void {
+    this.polynomial$!.subscribe(p => console.log("INSIDE RECENT POLY COMPONENT: " + p));
+  }
 
   polynomialView(id: number): void {
     this.polyService.viewPolynomial(id);

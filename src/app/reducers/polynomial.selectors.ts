@@ -37,3 +37,10 @@ export const selectCurrentPolynomial = createSelector(
   getCurrentPolynomial,
   appState => appState.currentPolynomial
 );
+
+export const getAppState = createFeatureSelector<AppStateInterface>('polynomial');
+
+export const selectAppState = createSelector(
+  getAppState,
+    appState => appState
+)
