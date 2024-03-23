@@ -77,7 +77,9 @@ export class PolynomialService {
     this.store.select(selectPolynomialList)
       .subscribe(list => {
         const polynomial: Polynomial = list.find(p => p.id === id)!;
-        this.store.dispatch(loadCurrentPolynomial({polynomial}));
+        if(polynomial !== undefined){
+          this.store.dispatch(loadCurrentPolynomial({polynomial}));
+        }
       })
   }
 

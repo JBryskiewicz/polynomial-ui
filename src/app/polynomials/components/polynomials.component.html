@@ -7,8 +7,6 @@
       />
     </section>
 
-    <!-- ### Section border ### -->
-
     <section class="variables-section">
       <div class="variable-box">
         <div *ngFor="let variable of variables$ | async">
@@ -33,18 +31,16 @@
 
   </div>
 
-  <!-- ### Section border ### -->
-
   <div class="right-side">
+
     <section class="polynomials-section">
       <mat-card>
         <mat-card-content class="recent-poly-box">
           <h2>Recently created polynomials</h2>
         </mat-card-content>
       </mat-card>
-      <app-recent-polynomials
-        [polynomials]="(polynomials$ | async)!"
-      />
+      <app-recent-polynomials/>
     </section>
+
   </div>
 </main>

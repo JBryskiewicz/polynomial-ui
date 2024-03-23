@@ -1,4 +1,4 @@
-import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AsyncPipe, NgForOf} from "@angular/common";
 import {DataInputComponent} from "./data-input/data-input.component";
 import {MatIcon} from "@angular/material/icon";
@@ -16,7 +16,6 @@ import {
   selectCurrentPolynomial,
   selectCurrentRange,
   selectCurrentVariables, selectGraphData,
-  selectPolynomialList
 } from "../../reducers/polynomial.selectors";
 import {Observable} from "rxjs";
 import {FunctionService} from "../services/function.service";
@@ -41,13 +40,12 @@ import {FunctionService} from "../services/function.service";
   templateUrl: './polynomials.component.html',
   styleUrl: './polynomials.component.scss'
 })
-export class PolynomialsComponent implements OnInit, OnChanges {
+export class PolynomialsComponent implements OnInit {
 
-  variables$?: Observable<Variable[]> = this.store.select(selectCurrentVariables);
-  range$?: Observable<number[]> = this.store.select(selectCurrentRange);
-  polynomials$?: Observable<Polynomial[]> = this.store.select(selectPolynomialList);
-  data$?: Observable<GraphData[]> = this.store.select(selectGraphData);
-  polynomial$?: Observable<Polynomial> = this.store.select(selectCurrentPolynomial);
+  variables$: Observable<Variable[]> = this.store.select(selectCurrentVariables);
+  range$: Observable<number[]> = this.store.select(selectCurrentRange);
+  data$: Observable<GraphData[]> = this.store.select(selectGraphData);
+  polynomial$: Observable<Polynomial> = this.store.select(selectCurrentPolynomial);
 
   constructor(
     private polyService: PolynomialService,
@@ -66,8 +64,5 @@ export class PolynomialsComponent implements OnInit, OnChanges {
             [polynomial.rangeStart, polynomial.rangeEnd]
           )
         });
-  }
-  ngOnChanges(): void {
-    this.polynomial$!.subscribe(p => console.log("INSIDE MAIN COMPONENT: " + p));
   }
 }

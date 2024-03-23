@@ -1,5 +1,5 @@
 <div class="polynomial-list-box">
-  <div *ngFor="let polynomial of polynomials">
+  <div *ngFor="let polynomial of (polynomials$ | async)">
     <mat-card>
       <mat-card-content class="poly-item">
         <p>

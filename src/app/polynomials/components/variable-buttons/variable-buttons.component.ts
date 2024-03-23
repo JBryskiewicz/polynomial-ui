@@ -26,8 +26,8 @@ import {AsyncPipe, NgIf} from "@angular/common";
   styleUrl: './variable-buttons.component.scss'
 })
 export class VariableButtonsComponent {
-  variables$?: Observable<Variable[]> = this.store.select(selectCurrentVariables);
-  polynomial$?: Observable<Polynomial> = this.store.select(selectCurrentPolynomial);
+  variables$: Observable<Variable[]> = this.store.select(selectCurrentVariables);
+  polynomial$: Observable<Polynomial> = this.store.select(selectCurrentPolynomial);
   id: number = 0;
 
   constructor(
@@ -36,7 +36,6 @@ export class VariableButtonsComponent {
     private varService: VariablesService
   ) {
     this.polynomial$!.subscribe(poly => {
-      console.log("INSIDE OF VARIABLE BUTTONS" + poly);
         this.id = poly.id!;
     })
   }
