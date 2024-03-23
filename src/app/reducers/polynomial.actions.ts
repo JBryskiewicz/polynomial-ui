@@ -10,12 +10,17 @@ export const loadPolynomialsSuccess = createAction(
 
 export const loadPolynomialsFailure = createAction(
   '[Polynomials] Load Failure',
-    props<{ error: string | null }>()
-  );
+  props<{ error: string | null }>()
+);
+
+export const reloadPolynomialsWithCurrentPolySuccess = createAction(
+  '[Polynomials] Reload Success',
+  props<{ polynomials: Polynomial[] }>()
+);
 
 export const loadGraphWithData = createAction(
   '[GraphData] Data Loaded',
-  props<{ graphData: GraphData[]}>()
+  props<{ graphData: GraphData[] }>()
 );
 
 export const loadFunctionRange = createAction(
@@ -30,7 +35,7 @@ export const loadVariables = createAction(
 
 export const loadCurrentPolynomial = createAction(
   '[Polynomial] Current Polynomial Loaded',
-        props<{ polynomial: Polynomial }>()
+  props<{ polynomial: Polynomial }>()
 )
 
 export const RESET_POLYNOMIAL = createAction(

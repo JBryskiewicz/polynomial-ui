@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {Variable, Polynomial} from "../../types/types";
+import {Variable, Polynomial, NewPolynomial, NewVariable} from "../../types/types";
 import {MatIcon} from "@angular/material/icon";
 import {MatMiniFabButton} from "@angular/material/button";
 import {PolynomialService} from "../../services/polynomial.service";
@@ -36,20 +36,25 @@ export class VariableButtonsComponent {
     private varService: VariablesService
   ) {
     this.polynomial$!.subscribe(poly => {
-      this.id = poly.id!;
+        this.id = poly.id!;
     })
   }
 
   saveToDataBase() {
-    this.polynomial$!.subscribe(poly => {
-      const polynomial: Polynomial = {
-        id: null,
-        variables: poly.variables,
+    const subscribe = this.polynomial$!.subscribe(poly => {
+      const newVariables: NewVariable[] = poly.variables
+        .map(({ position, value }) => ({ position, value }));
+
+      const polynomial: NewPolynomial = {
+        variables: newVariables,
         rangeStart: poly.rangeStart,
         rangeEnd: poly.rangeEnd
       }
+
       this.polyService.savePolynomial(polynomial);
     })
+
+    subscribe.unsubscribe();
   }
 
   editPolynomial(): void {

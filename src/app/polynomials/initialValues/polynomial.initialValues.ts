@@ -2,9 +2,9 @@ import {GraphData, Variable} from "../types/types";
 import {AppStateInterface} from "../../types/app.interface";
 
 export const initialVariables: Variable[] = [
-  {id: null, position: 0, value: 1},
-  {id: null, position: 1, value: 1},
-  {id: null, position: 2, value: 1}
+  {id: -1, position: 0, value: 1},
+  {id: -2, position: 1, value: 1},
+  {id: -3, position: 2, value: 1}
 ];
 
 export const initialRange: number[] = [-100,100];
@@ -31,7 +31,7 @@ export const initialAppState: AppStateInterface = {
   isLoading: false,
   polynomials: [],
   currentPolynomial: {
-    id: null,
+    id: -1,
     variables: [ ...initialVariables ],
     rangeStart: initialRange[0],
     rangeEnd: initialRange[1]

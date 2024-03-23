@@ -5,7 +5,10 @@ import {
   loadGraphWithData,
   loadPolynomials,
   loadPolynomialsFailure,
-  loadPolynomialsSuccess, loadVariables, RESET_POLYNOMIAL
+  loadPolynomialsSuccess,
+  loadVariables,
+  reloadPolynomialsWithCurrentPolySuccess,
+  RESET_POLYNOMIAL
 } from "./polynomial.actions";
 import {initialAppState} from "../polynomials/initialValues/polynomial.initialValues";
 import {state} from "@angular/animations";
@@ -26,6 +29,12 @@ export const polynomialReducer = createReducer(
     ...state,
     isLoading: false,
     error: error
+  })),
+  on(reloadPolynomialsWithCurrentPolySuccess, (state, { polynomials}) => ({
+    ...state,
+    polynomials: polynomials,
+    currentPolynomial: polynomials[0],
+    isLoading: false
   })),
   on(loadGraphWithData, (state, { graphData }) => ({
     ...state,

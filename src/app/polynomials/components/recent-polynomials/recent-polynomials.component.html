@@ -6,10 +6,14 @@
           Polynomial No.{{ polynomial.id }}
         </p>
         <div>
-<!--          TODO Style this div or change it for similar to button non-clickable tag -->
-          <div *ngIf="polynomial.id === (polynomial$ | async)?.id">
+          <button
+            *ngIf="polynomial.id === (polynomial$ | async)?.id"
+            mat-raised-button
+            color="accent"
+            class="poly-item-selected"
+            >
             Selected
-          </div>
+          </button>
           <button
             *ngIf="polynomial.id !== (polynomial$ | async)?.id"
             mat-raised-button

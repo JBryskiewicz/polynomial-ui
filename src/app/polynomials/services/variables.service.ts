@@ -16,7 +16,7 @@ export class VariablesService {
     const position = currentVariables.length;
     const variables: Variable[] = [
       ...currentVariables,
-      {id: null, position: position, value: 1}
+      {id: (-1)*position-1 ,position: position, value: 1}
     ]
     this.store.dispatch(loadVariables({variables}))
   }
@@ -34,6 +34,7 @@ export class VariablesService {
       .subscribe(data => {
         let variables: Variable[] = [...data];
         if (value !== 0 && !Number.isNaN(value)) {
+          //expected error?
           variables[position] = {id: variables[position].id, position: position, value: value}
         } else {
           variables[position] = {id: variables[position].id, position: position, value: 1};

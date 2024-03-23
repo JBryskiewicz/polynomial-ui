@@ -1,15 +1,16 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Polynomial} from "../types/types";
-import {Observable, take} from "rxjs";
+import {NewPolynomial, Polynomial} from "../types/types";
+import {Observable} from "rxjs";
 import {Store} from "@ngrx/store";
 import {
   loadCurrentPolynomial,
   loadPolynomials,
   loadPolynomialsFailure,
-  loadPolynomialsSuccess
+  loadPolynomialsSuccess,
+  reloadPolynomialsWithCurrentPolySuccess
 } from "../../reducers/polynomial.actions";
-import {selectCurrentPolynomial, selectPolynomialList} from "../../reducers/polynomial.selectors";
+import {selectPolynomialList} from "../../reducers/polynomial.selectors";
 
 @Injectable({
   providedIn: 'root'
@@ -25,32 +26,38 @@ export class PolynomialService {
   }
 
   loadPolynomialsAndDispatch() {
-    this.store.dispatch(loadPolynomials());
     this.getPolynomialsFromApi().subscribe({
         next: (polynomials) => {
+          this.store.dispatch(loadPolynomials());
           this.store.dispatch(loadPolynomialsSuccess({polynomials}));
         },
-        error: (error) => this.store.dispatch(loadPolynomialsFailure({error}))
+        error: (error) => {
+          this.store.dispatch(loadPolynomialsFailure({error}))
+        },
       }
     )
   }
 
-  savePolynomial(polynomial: Polynomial): void {
+  reloadPolynomialsAndDispatch() {
+    this.getPolynomialsFromApi().subscribe({
+        next: (polynomials) => {
+          this.store.dispatch(loadPolynomials());
+          this.store.dispatch(reloadPolynomialsWithCurrentPolySuccess({polynomials}));
+        },
+        error: (error) => {
+          this.store.dispatch(loadPolynomialsFailure({error}))
+        },
+      }
+    )
+  }
+
+  savePolynomial(polynomial: NewPolynomial): void {
     this.http.post<Polynomial>(this.polynomialURL, polynomial)
       .subscribe({
         next: () => {
-          this.loadPolynomialsAndDispatch();
-          console.log('saved successfully');
-
-          // TODO causes unwanted behaviour, rework it before implementing.
-          // this.store.select(selectPolynomialList).subscribe(list => {
-          //   const polynomial = list[0];
-          //   this.store.dispatch(loadCurrentPolynomial({ polynomial }));
-          // })
+          this.reloadPolynomialsAndDispatch();
+          console.log('saved successfully:');
         },
-        error: (error) => {
-          console.log(error)
-        }
       });
   }
 
@@ -58,10 +65,9 @@ export class PolynomialService {
     this.http.delete(`${this.polynomialURL}/${id}`)
       .subscribe({
         next: () => {
-          this.loadPolynomialsAndDispatch();
-          console.log('deleted successfully')
+          this.reloadPolynomialsAndDispatch();
+          console.log('deleted successfully');
         },
-        error: (error) => console.log(error),
       });
   }
 
@@ -78,9 +84,6 @@ export class PolynomialService {
       .subscribe({
         next: () => {
           console.log('updated successfully')
-        },
-        error: (error) => {
-          console.log(error)
         }
       });
   }
