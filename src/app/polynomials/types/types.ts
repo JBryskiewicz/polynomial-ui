@@ -20,6 +20,13 @@ export interface Polynomial{
   rangeEnd: number;
 }
 
+export interface EditablePolynomial{
+  id: number;
+  variables: Variable[] | NewVariable[];
+  rangeStart: number;
+  rangeEnd: number;
+}
+
 export interface GraphData {
   x: number;
   value: number;

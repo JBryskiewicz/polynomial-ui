@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {NewPolynomial, Polynomial} from "../types/types";
+import {EditablePolynomial, NewPolynomial, NewVariable, Polynomial, Variable} from "../types/types";
 import {Observable} from "rxjs";
 import {Store} from "@ngrx/store";
 import {
@@ -84,7 +84,20 @@ export class PolynomialService {
   }
 
   updatePolynomial(id: number, toUpdatePolynomial: Polynomial): void {
-    this.http.put(`${this.polynomialURL}/${id}`, toUpdatePolynomial)
+    const existingVariables: Variable[] = toUpdatePolynomial.variables
+      .filter(v => v.id > 0);
+    const addedVariables: NewVariable[] = toUpdatePolynomial.variables
+      .filter(v => v.id < 0)
+      .map(({id, ...rest}) => ({...rest}));
+
+    const polynomial: EditablePolynomial = {
+      id: toUpdatePolynomial.id,
+      variables: [...existingVariables, ...addedVariables],
+      rangeStart: toUpdatePolynomial.rangeStart,
+      rangeEnd: toUpdatePolynomial.rangeEnd
+    }
+
+    this.http.put(`${this.polynomialURL}/${id}`, polynomial)
       .subscribe({
         next: () => {
           console.log('updated successfully')
