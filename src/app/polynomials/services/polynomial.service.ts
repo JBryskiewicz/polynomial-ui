@@ -29,10 +29,10 @@ export class PolynomialService {
     this.getPolynomialsFromApi().subscribe({
         next: (polynomials) => {
           this.store.dispatch(loadPolynomials());
-          this.store.dispatch(loadPolynomialsSuccess({polynomials}));
+          this.store.dispatch(loadPolynomialsSuccess({ polynomials }));
         },
         error: (error) => {
-          this.store.dispatch(loadPolynomialsFailure({error}))
+          this.store.dispatch(loadPolynomialsFailure({ error }))
         },
       }
     )
@@ -42,10 +42,24 @@ export class PolynomialService {
     this.getPolynomialsFromApi().subscribe({
         next: (polynomials) => {
           this.store.dispatch(loadPolynomials());
-          this.store.dispatch(reloadPolynomialsWithCurrentPolySuccess({polynomials}));
+          this.store.dispatch(reloadPolynomialsWithCurrentPolySuccess({ polynomials }));
         },
         error: (error) => {
-          this.store.dispatch(loadPolynomialsFailure({error}))
+          this.store.dispatch(loadPolynomialsFailure({ error }))
+        },
+      }
+    )
+  }
+
+  reloadPolynomialsAfterUpdate(polynomial: Polynomial) {
+    this.getPolynomialsFromApi().subscribe({
+        next: (polynomials) => {
+          this.store.dispatch(loadPolynomials());
+          this.store.dispatch(loadPolynomialsSuccess({ polynomials }));
+          this.store.dispatch(loadCurrentPolynomial({ polynomial }))
+        },
+        error: (error) => {
+          this.store.dispatch(loadPolynomialsFailure({ error }))
         },
       }
     )
@@ -101,10 +115,9 @@ export class PolynomialService {
 
     this.http.put(`${this.polynomialURL}/${id}`, polynomial)
       .subscribe({
-        next: (returnEntity) => {
-          // TODO PREVENT FROM INFINITE LOOPING
-          // const polynomial: Polynomial = returnEntity as Polynomial;
-          // this.store.dispatch(loadCurrentPolynomial({ polynomial }));
+        next: (returnEntity: Object) => {
+          const polynomial: Polynomial = returnEntity as Polynomial;
+          this.reloadPolynomialsAfterUpdate(polynomial);
         },
         complete: () => {
           console.log('updated successfully');

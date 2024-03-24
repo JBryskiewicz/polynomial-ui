@@ -8,7 +8,7 @@ import {
   selectCurrentPolynomial,
   selectCurrentVariables
 } from "../../../reducers/polynomial.selectors";
-import {Observable, take} from "rxjs";
+import {Observable, Subscription, take} from "rxjs";
 import {VariablesService} from "../../services/variables.service";
 import {RESET_POLYNOMIAL} from "../../../reducers/polynomial.actions";
 import {AsyncPipe, NgIf} from "@angular/common";
@@ -36,14 +36,14 @@ export class VariableButtonsComponent {
     private varService: VariablesService
   ) {
     this.polynomial$!.subscribe(poly => {
-        this.id = poly.id!;
+      this.id = poly.id!;
     })
   }
 
   saveToDataBase() {
     const subscribe = this.polynomial$!.subscribe(poly => {
       const newVariables: NewVariable[] = poly.variables
-        .map(({ position, value }) => ({ position, value }));
+        .map(({position, value}) => ({position, value}));
 
       const polynomial: NewPolynomial = {
         variables: newVariables,
@@ -53,14 +53,15 @@ export class VariableButtonsComponent {
 
       this.polyService.savePolynomial(polynomial);
     })
-
     subscribe.unsubscribe();
   }
 
   editPolynomial(): void {
-    this.polynomial$!.subscribe(polynomial => {
-      this.polyService.updatePolynomial(polynomial.id!, polynomial);
-    })
+    this.polynomial$!
+      .pipe(take(1))
+      .subscribe(polynomial => {
+        this.polyService.updatePolynomial(polynomial.id!, polynomial);
+      });
   }
 
   addVariable(): void {

@@ -10,7 +10,7 @@ import {take} from "rxjs";
 })
 export class VariablesService {
 
-  constructor(private store: Store,) { }
+  constructor(private store: Store) { }
 
   addToCurrentVariables(currentVariables: Variable[]): void {
     const position = currentVariables.length;
