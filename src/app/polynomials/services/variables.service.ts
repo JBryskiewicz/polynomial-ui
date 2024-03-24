@@ -33,8 +33,9 @@ export class VariablesService {
       .pipe(take(1))
       .subscribe(data => {
         let variables: Variable[] = [...data];
-        if (value !== 0 && !Number.isNaN(value)) {
-          //expected error?
+        if (value !== 0 && !Number.isNaN(value) && variables[position].position + 1 === variables.length) {
+          variables[position] = {id: variables[position].id, position: position, value: value}
+        } else if (!Number.isNaN(value) && variables[position].position + 1 !== variables.length) {
           variables[position] = {id: variables[position].id, position: position, value: value}
         } else {
           variables[position] = {id: variables[position].id, position: position, value: 1};
