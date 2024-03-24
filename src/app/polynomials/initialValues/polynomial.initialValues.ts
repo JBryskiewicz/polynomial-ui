@@ -35,5 +35,6 @@ export const initialAppState: AppStateInterface = {
     rangeEnd: initialRange[1]
   },
   graphData: initialGraphData(initialVariables, initialRange),
+  bestSolution: { x:0, value:0 },
   error: null
 };

@@ -5,5 +5,6 @@ export interface AppStateInterface {
   polynomials: Polynomial[];
   currentPolynomial: Polynomial;
   graphData: GraphData[];
+  bestSolution: GraphData;
   error: string | null;
 }

@@ -8,10 +8,11 @@ import {
   selectCurrentPolynomial,
   selectCurrentVariables
 } from "../../../reducers/polynomial.selectors";
-import {Observable, Subscription, take} from "rxjs";
+import {Observable, take} from "rxjs";
 import {VariablesService} from "../../services/variables.service";
 import {RESET_POLYNOMIAL} from "../../../reducers/polynomial.actions";
 import {AsyncPipe, NgIf} from "@angular/common";
+import {AnnealingService} from "../../services/annealing.service";
 
 @Component({
   selector: 'app-variable-buttons',
@@ -33,7 +34,8 @@ export class VariableButtonsComponent {
   constructor(
     private store: Store,
     private polyService: PolynomialService,
-    private varService: VariablesService
+    private varService: VariablesService,
+    private annealingService: AnnealingService,
   ) {
     this.polynomial$!.subscribe(poly => {
       this.id = poly.id!;
@@ -82,5 +84,11 @@ export class VariableButtonsComponent {
 
   resetCurrentPolynomial(): void {
     this.store.dispatch(RESET_POLYNOMIAL());
+  }
+
+  symulateMax(): void {
+    this.polynomial$.subscribe(poly => {
+      this.annealingService.calculateAnnealing(poly.variables, [poly.rangeStart, poly.rangeEnd]);
+    })
   }
 }

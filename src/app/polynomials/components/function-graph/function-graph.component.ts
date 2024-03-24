@@ -16,6 +16,7 @@ import {MatCard, MatCardContent} from "@angular/material/card";
 export class FunctionGraphComponent implements AfterViewInit, OnChanges {
 
   @Input() data: GraphData[] = [];
+  @Input() bestSolution: GraphData = { x: 0, value:0 }
 
   constructor() { }
 
@@ -46,6 +47,12 @@ export class FunctionGraphComponent implements AfterViewInit, OnChanges {
             label: 'f(x)',
             data: this.data.map((yAxis) => yAxis.value),
             tension: 0
+          },
+          {
+            label: 'MAX',
+            data: [this.bestSolution.value],
+            tension: 0,
+            pointRadius: 8
           }
         ]
       }
@@ -55,7 +62,17 @@ export class FunctionGraphComponent implements AfterViewInit, OnChanges {
   private updateChart(): void {
     this.chart.data.labels = this.data.map(xAxis => xAxis.x);
     this.chart.data.datasets[0].data = this.data.map(yAxis => yAxis.value);
+    this.chart.data.datasets[1].data = this.fillArray(this.bestSolution);
     this.chart.update();
+  }
+
+  private fillArray(bestSolution: GraphData): any[] {
+    const graphArray: any[] = [];
+    for (let i = 1; i < bestSolution.x; i++) {
+      graphArray.push(undefined);
+    }
+    graphArray.push(bestSolution.value);
+    return graphArray;
   }
 
 }

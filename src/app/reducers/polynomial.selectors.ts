@@ -38,9 +38,16 @@ export const selectCurrentPolynomial = createSelector(
   appState => appState.currentPolynomial
 );
 
+export const getBestSolution = createFeatureSelector<AppStateInterface>('polynomial');
+
+export const selectBestSolution = createSelector(
+  getBestSolution,
+  appState => appState.bestSolution
+);
+
 export const getAppState = createFeatureSelector<AppStateInterface>('polynomial');
 
 export const selectAppState = createSelector(
   getAppState,
     appState => appState
-)
+);

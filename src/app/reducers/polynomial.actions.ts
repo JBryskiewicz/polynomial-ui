@@ -38,6 +38,11 @@ export const loadCurrentPolynomial = createAction(
   props<{ polynomial: Polynomial }>()
 )
 
+export const loadBestSolution = createAction(
+  '[Solution] Best Solution Loaded',
+  props<{ bestSolution: GraphData }>()
+)
+
 export const RESET_POLYNOMIAL = createAction(
   '[Polynomial] Current Polynomial set to default'
 )

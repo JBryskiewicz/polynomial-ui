@@ -13,6 +13,7 @@ import {loadPolynomials} from "../../reducers/polynomial.actions";
 import {MatCard, MatCardContent} from "@angular/material/card";
 import {RecentPolynomialsComponent} from "./recent-polynomials/recent-polynomials.component";
 import {
+  selectBestSolution,
   selectCurrentPolynomial,
   selectCurrentRange,
   selectCurrentVariables, selectGraphData,
@@ -45,6 +46,7 @@ export class PolynomialsComponent implements OnInit {
   variables$: Observable<Variable[]> = this.store.select(selectCurrentVariables);
   range$: Observable<number[]> = this.store.select(selectCurrentRange);
   data$: Observable<GraphData[]> = this.store.select(selectGraphData);
+  bestSolution$: Observable<GraphData> = this.store.select(selectBestSolution);
   polynomial$: Observable<Polynomial> = this.store.select(selectCurrentPolynomial);
 
   constructor(

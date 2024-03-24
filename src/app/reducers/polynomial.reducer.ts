@@ -1,5 +1,6 @@
 import {createReducer, on} from "@ngrx/store";
 import {
+  loadBestSolution,
   loadCurrentPolynomial,
   loadFunctionRange,
   loadGraphWithData,
@@ -64,6 +65,10 @@ export const polynomialReducer = createReducer(
       rangeStart: state.currentPolynomial.rangeStart,
       rangeEnd: state.currentPolynomial.rangeEnd,
     }
+  })),
+  on(loadBestSolution, (state, {bestSolution}) => ({
+    ...state,
+    bestSolution: bestSolution
   })),
   on(RESET_POLYNOMIAL, (state) => ({
     ...state,
