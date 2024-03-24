@@ -16,7 +16,8 @@ import {selectPolynomialList} from "../../reducers/polynomial.selectors";
   providedIn: 'root'
 })
 export class PolynomialService {
-  private polynomialURL = 'http://localhost:8080/api/polynomials';
+
+  private polynomialURL = 'https://polynomial-api-latest.onrender.com/api/polynomials';
 
   constructor(private http: HttpClient, private store: Store) {
   }
@@ -29,10 +30,10 @@ export class PolynomialService {
     this.getPolynomialsFromApi().subscribe({
         next: (polynomials) => {
           this.store.dispatch(loadPolynomials());
-          this.store.dispatch(loadPolynomialsSuccess({ polynomials }));
+          this.store.dispatch(loadPolynomialsSuccess({polynomials}));
         },
         error: (error) => {
-          this.store.dispatch(loadPolynomialsFailure({ error }))
+          this.store.dispatch(loadPolynomialsFailure({error}))
         },
       }
     )
@@ -42,10 +43,10 @@ export class PolynomialService {
     this.getPolynomialsFromApi().subscribe({
         next: (polynomials) => {
           this.store.dispatch(loadPolynomials());
-          this.store.dispatch(reloadPolynomialsWithCurrentPolySuccess({ polynomials }));
+          this.store.dispatch(reloadPolynomialsWithCurrentPolySuccess({polynomials}));
         },
         error: (error) => {
-          this.store.dispatch(loadPolynomialsFailure({ error }))
+          this.store.dispatch(loadPolynomialsFailure({error}))
         },
       }
     )
@@ -55,11 +56,11 @@ export class PolynomialService {
     this.getPolynomialsFromApi().subscribe({
         next: (polynomials) => {
           this.store.dispatch(loadPolynomials());
-          this.store.dispatch(loadPolynomialsSuccess({ polynomials }));
-          this.store.dispatch(loadCurrentPolynomial({ polynomial }))
+          this.store.dispatch(loadPolynomialsSuccess({polynomials}));
+          this.store.dispatch(loadCurrentPolynomial({polynomial}))
         },
         error: (error) => {
-          this.store.dispatch(loadPolynomialsFailure({ error }))
+          this.store.dispatch(loadPolynomialsFailure({error}))
         },
       }
     )
@@ -93,7 +94,7 @@ export class PolynomialService {
     this.store.select(selectPolynomialList)
       .subscribe(list => {
         const polynomial: Polynomial = list.find(p => p.id === id)!;
-        if(polynomial !== undefined){
+        if (polynomial !== undefined) {
           this.store.dispatch(loadCurrentPolynomial({polynomial}));
         }
       })
