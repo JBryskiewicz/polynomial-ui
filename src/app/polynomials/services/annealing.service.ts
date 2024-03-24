@@ -15,30 +15,29 @@ export class AnnealingService {
   calculateAnnealing(variables: Variable[], range: number[]) {
     let searchRange: [number, number] = [range[0], range[1]];
     const coolingRate: number = 0.5;
-    const maxIterations: number = 100;
+    const maxIterations: number = 5;
     const testsPerIteration: number = 3;
 
-    let temperature: number = 1;
+    let temperature: number = 500;
 
-    let localMax: number = searchRange[0] + (Math.random() * (searchRange[1] - searchRange[0])); //x
+    let localMax: number = searchRange[0] + Math.round(Math.random() * (searchRange[1] - searchRange[0]));
     let value: number = 0;
 
     for (let i = 0; i < maxIterations; i++) {
     let fX: number = this.functionService.calculateFunction(variables, localMax);
-      searchRange = [
-        Math.max(searchRange[0], localMax - 2 * temperature),
-        Math.min(searchRange[1], localMax + 2 * temperature)
-      ];
-
       for (let j = 0; j < testsPerIteration; j++) {
-        let newX: number = searchRange[0] + (Math.random() * (searchRange[1] - searchRange[0]));
+        searchRange = [
+          Math.max(searchRange[0], localMax - 2 * temperature),
+          Math.min(searchRange[1], localMax + 2 * temperature)
+        ];
+        let newX: number = searchRange[0] + Math.round(Math.random() * (searchRange[1] - searchRange[0]));
         let newfX: number = this.functionService.calculateFunction(variables, newX);
 
         if (newfX > fX || Math.exp((newfX - fX) / temperature) > Math.random()) {
           fX = newfX;
-          value = fX;
           localMax = newX;
         }
+        value = fX;
       }
       temperature *= coolingRate;
     }

@@ -49,9 +49,8 @@ export class FunctionGraphComponent implements AfterViewInit, OnChanges {
             tension: 0
           },
           {
-            label: 'MAX',
-            data: [this.bestSolution.value],
-            tension: 0,
+            label: 'Max',
+            data: this.fillGraphArray(),
             pointRadius: 8
           }
         ]
@@ -62,17 +61,20 @@ export class FunctionGraphComponent implements AfterViewInit, OnChanges {
   private updateChart(): void {
     this.chart.data.labels = this.data.map(xAxis => xAxis.x);
     this.chart.data.datasets[0].data = this.data.map(yAxis => yAxis.value);
-    this.chart.data.datasets[1].data = this.fillArray(this.bestSolution);
+    this.chart.data.datasets[1].data = this.fillGraphArray();
     this.chart.update();
   }
 
-  private fillArray(bestSolution: GraphData): any[] {
-    const graphArray: any[] = [];
-    for (let i = 1; i < bestSolution.x; i++) {
-      graphArray.push(undefined);
-    }
-    graphArray.push(bestSolution.value);
-    return graphArray;
+  private fillGraphArray(): any[] {
+    let tempArr: any[] = [];
+    this.data.forEach(d => {
+      if(d.x === this.bestSolution.x){
+        tempArr.push(this.bestSolution.value)
+      } else {
+        tempArr.push(undefined)
+      }
+    })
+    return tempArr;
   }
 
 }

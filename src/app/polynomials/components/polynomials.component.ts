@@ -20,6 +20,7 @@ import {
 } from "../../reducers/polynomial.selectors";
 import {Observable} from "rxjs";
 import {FunctionService} from "../services/function.service";
+import {AnnealingService} from "../services/annealing.service";
 
 @Component({
   selector: 'app-polynomials',
@@ -52,6 +53,7 @@ export class PolynomialsComponent implements OnInit {
   constructor(
     private polyService: PolynomialService,
     private functionService: FunctionService,
+    private annealingService: AnnealingService,
     private store: Store<{ polynomials: Polynomial[] }>
   ) { }
 
@@ -62,6 +64,10 @@ export class PolynomialsComponent implements OnInit {
       this.polynomial$!
         .subscribe( (polynomial) => {
           this.functionService.populateGraph(
+            polynomial.variables,
+            [polynomial.rangeStart, polynomial.rangeEnd]
+          )
+          this.annealingService.calculateAnnealing(
             polynomial.variables,
             [polynomial.rangeStart, polynomial.rangeEnd]
           )

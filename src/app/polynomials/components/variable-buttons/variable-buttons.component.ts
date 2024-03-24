@@ -35,7 +35,6 @@ export class VariableButtonsComponent {
     private store: Store,
     private polyService: PolynomialService,
     private varService: VariablesService,
-    private annealingService: AnnealingService,
   ) {
     this.polynomial$!.subscribe(poly => {
       this.id = poly.id!;
@@ -86,9 +85,4 @@ export class VariableButtonsComponent {
     this.store.dispatch(RESET_POLYNOMIAL());
   }
 
-  symulateMax(): void {
-    this.polynomial$.subscribe(poly => {
-      this.annealingService.calculateAnnealing(poly.variables, [poly.rangeStart, poly.rangeEnd]);
-    })
-  }
 }
