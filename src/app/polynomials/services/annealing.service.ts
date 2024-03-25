@@ -3,6 +3,7 @@ import {FunctionService} from "./function.service";
 import {Store} from "@ngrx/store";
 import {GraphData, Variable} from "../types/types";
 import {loadBestSolution} from "../../reducers/polynomial.actions";
+import {interval, Observable, take} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -40,10 +41,20 @@ export class AnnealingService {
         value = fX;
       }
       temperature *= coolingRate;
+      this.printLocalMaxWithDelay(localMax, value, i);
     }
 
     const bestSolution: GraphData = {x: localMax, value: value}
 
     this.store.dispatch(loadBestSolution({ bestSolution }));
   }
+
+  private printLocalMaxWithDelay(localMax: number, value: number, iteration: number) {
+    const source: Observable<number> = interval(iteration * 1000).pipe(take(1));
+
+    source.subscribe(() => {
+      console.log(`Iteration ${iteration + 1}: LocalMax = ${localMax} and value f(x) = ${value}`);
+    })
+  }
+
 }
