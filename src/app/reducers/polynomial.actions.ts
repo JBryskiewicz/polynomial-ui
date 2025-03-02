@@ -1,5 +1,6 @@
 import {createAction, props} from "@ngrx/store";
 import {GraphData, Polynomial, Variable} from "../polynomials/types/types";
+import {User} from "../users/types/user.interface";
 
 export const loadPolynomials = createAction('[Polynomials] Load');
 
@@ -43,6 +44,13 @@ export const loadBestSolution = createAction(
   props<{ bestSolution: GraphData }>()
 )
 
+export const setUser = createAction(
+  '[User] User set',
+  props<{ user: User }>()
+)
+
+
 export const RESET_POLYNOMIAL = createAction(
   '[Polynomial] Current Polynomial set to default'
 )
+

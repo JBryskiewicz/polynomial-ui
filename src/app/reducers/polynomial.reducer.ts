@@ -9,7 +9,7 @@ import {
   loadPolynomialsSuccess,
   loadVariables,
   reloadPolynomialsWithCurrentPolySuccess,
-  RESET_POLYNOMIAL
+  RESET_POLYNOMIAL, setUser
 } from "./polynomial.actions";
 import {initialAppState} from "../polynomials/initialValues/polynomial.initialValues";
 
@@ -30,7 +30,7 @@ export const polynomialReducer = createReducer(
     isLoading: false,
     error: error
   })),
-  on(reloadPolynomialsWithCurrentPolySuccess, (state, { polynomials }) => {
+  on(reloadPolynomialsWithCurrentPolySuccess, (state, {polynomials}) => {
     const currentPolynomial = (polynomials.length !== 0) ? polynomials[0] : initialAppState.currentPolynomial;
     const nextState = {
       ...state,
@@ -38,8 +38,8 @@ export const polynomialReducer = createReducer(
       currentPolynomial: currentPolynomial,
       isLoading: false
     }
-      return nextState
-    }),
+    return nextState
+  }),
   on(loadGraphWithData, (state, {graphData}) => ({
     ...state,
     graphData: graphData
@@ -48,27 +48,39 @@ export const polynomialReducer = createReducer(
     ...state,
     currentPolynomial: polynomial
   })),
-  on(loadFunctionRange, (state, {range}) => ({
-    ...state,
-    currentPolynomial: {
-      id: state.currentPolynomial.id,
-      variables: state.currentPolynomial.variables,
-      rangeStart: range[0],
-      rangeEnd: range[1]
-    }
-  })),
-  on(loadVariables, (state, {variables}) => ({
-    ...state,
-    currentPolynomial: {
-      id: state.currentPolynomial.id,
-      variables: variables,
-      rangeStart: state.currentPolynomial.rangeStart,
-      rangeEnd: state.currentPolynomial.rangeEnd,
-    }
-  })),
+  on(loadFunctionRange, (state, {range}) => {
+    const userId = state.user ? state.user.id : 0;
+    return ({
+      ...state,
+      currentPolynomial: {
+        id: state.currentPolynomial.id,
+        variables: state.currentPolynomial.variables,
+        rangeStart: range[0],
+        rangeEnd: range[1],
+        userId: userId,
+      }
+    })
+  }),
+  on(loadVariables, (state, {variables}) => {
+    const userId = state.user ? state.user.id : 0;
+    return ({
+      ...state,
+      currentPolynomial: {
+        id: state.currentPolynomial.id,
+        variables: variables,
+        rangeStart: state.currentPolynomial.rangeStart,
+        rangeEnd: state.currentPolynomial.rangeEnd,
+        userId: userId
+      }
+    })
+  }),
   on(loadBestSolution, (state, {bestSolution}) => ({
     ...state,
     bestSolution: bestSolution
+  })),
+  on(setUser, (state, {user}) => ({
+    ...state,
+    user: user,
   })),
   on(RESET_POLYNOMIAL, (state) => ({
     ...state,

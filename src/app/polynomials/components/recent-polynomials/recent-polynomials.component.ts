@@ -4,9 +4,9 @@ import {MatCard, MatCardContent} from "@angular/material/card";
 import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {Polynomial} from "../../types/types";
 import {PolynomialService} from "../../services/polynomial.service";
-import {Observable} from "rxjs";
-import {selectCurrentPolynomial, selectPolynomialList} from "../../../reducers/polynomial.selectors";
-import {Store} from "@ngrx/store";
+import {Observable, take} from "rxjs";
+import {selectAppState, selectCurrentPolynomial, selectPolynomialList} from "../../../reducers/polynomial.selectors";
+import {select, Store} from "@ngrx/store";
 
 @Component({
   selector: 'app-recent-polynomials',
@@ -34,6 +34,10 @@ export class RecentPolynomialsComponent{
   }
 
   polynomialDelete(id: number): void {
-    this.polyService.deletePolynomial(id);
+    this.store.pipe(select(selectAppState), take(1)).subscribe(state => {
+      if (state.user) {
+        this.polyService.deletePolynomial(id, state.user.id);
+      }
+    });
   }
 }

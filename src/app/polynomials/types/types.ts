@@ -18,6 +18,7 @@ export interface Polynomial{
   variables: Variable[];
   rangeStart: number;
   rangeEnd: number;
+  userId: number
 }
 
 export interface EditablePolynomial{
@@ -25,6 +26,7 @@ export interface EditablePolynomial{
   variables: Variable[] | NewVariable[];
   rangeStart: number;
   rangeEnd: number;
+  userId: number
 }
 
 export interface GraphData {

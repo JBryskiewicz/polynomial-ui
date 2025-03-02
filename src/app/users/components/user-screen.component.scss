@@ -1,0 +1,22 @@
+.main {
+  display: flex;
+  justify-content: space-evenly;
+  height: calc(100vh - 3rem);
+  width: 100vw;
+  background-color: lightslategrey;
+  overflow: hidden;
+  padding-top: 3rem;
+
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 32px;
+    background-color: #bebebe;
+    border: 1px solid #1A1A1A;
+    border-radius: 6px;
+    width: 300px;
+    margin-bottom: 48px;
+  }
+}

@@ -3,8 +3,9 @@ import {Variable, Polynomial, NewPolynomial, NewVariable} from "../../types/type
 import {MatIcon} from "@angular/material/icon";
 import {MatMiniFabButton} from "@angular/material/button";
 import {PolynomialService} from "../../services/polynomial.service";
-import {Store} from "@ngrx/store";
+import {select, Store} from "@ngrx/store";
 import {
+  selectAppState,
   selectCurrentPolynomial,
   selectCurrentVariables
 } from "../../../reducers/polynomial.selectors";
@@ -13,6 +14,7 @@ import {VariablesService} from "../../services/variables.service";
 import {RESET_POLYNOMIAL} from "../../../reducers/polynomial.actions";
 import {AsyncPipe, NgIf} from "@angular/common";
 import {AnnealingService} from "../../services/annealing.service";
+import {User} from "../../../users/types/user.interface";
 
 @Component({
   selector: 'app-variable-buttons',
@@ -29,6 +31,7 @@ import {AnnealingService} from "../../services/annealing.service";
 export class VariableButtonsComponent {
   variables$: Observable<Variable[]> = this.store.select(selectCurrentVariables);
   polynomial$: Observable<Polynomial> = this.store.select(selectCurrentPolynomial);
+  user: User | null = null;
   id: number = 0;
 
   constructor(
@@ -39,6 +42,11 @@ export class VariableButtonsComponent {
     this.polynomial$!.subscribe(poly => {
       this.id = poly.id!;
     })
+    this.store.pipe(select(selectAppState), take(1)).subscribe(state => {
+      if (state.user) {
+        this.user = state.user
+      }
+    });
   }
 
   saveToDataBase() {
@@ -51,8 +59,9 @@ export class VariableButtonsComponent {
         rangeStart: poly.rangeStart,
         rangeEnd: poly.rangeEnd
       }
-
-      this.polyService.savePolynomial(polynomial);
+      if (this.user) {
+        this.polyService.savePolynomial(polynomial, this.user.id);
+      }
     })
     subscribe.unsubscribe();
   }
@@ -61,7 +70,9 @@ export class VariableButtonsComponent {
     this.polynomial$!
       .pipe(take(1))
       .subscribe(polynomial => {
-        this.polyService.updatePolynomial(polynomial.id!, polynomial);
+        if (this.user) {
+          this.polyService.updatePolynomial(polynomial.id!, polynomial, this.user.id);
+        }
       });
   }
 
