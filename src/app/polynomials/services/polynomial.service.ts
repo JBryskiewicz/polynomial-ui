@@ -17,8 +17,8 @@ import {selectAppState, selectPolynomialList} from "../../reducers/polynomial.se
 })
 export class PolynomialService {
 
-  private polynomialURL = 'http://localhost:8080/api/polynomials';
-  // private polynomialURL = 'https://polynomial-api-latest.onrender.com/api/polynomials';
+  // private polynomialURL = 'http://localhost:8080/api/polynomials';
+  private polynomialURL = 'https://polynomial-api-latest.onrender.com/api/polynomials';
 
   constructor(private http: HttpClient, private store: Store) {
   }

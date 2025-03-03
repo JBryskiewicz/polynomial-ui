@@ -1,11 +1,18 @@
+.header {
+  height: 3rem; width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 8px;
+  margin-right: 32px;
+}
+
 .main {
   display: flex;
   justify-content: space-evenly;
   height: calc(100vh - 3rem);
-  width: 100vw;
-  background-color: lightslategrey;
+  width: 100%;
   overflow: hidden;
-  padding-top: 3rem;
 
   .left-side {
 

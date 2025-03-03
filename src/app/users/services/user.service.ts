@@ -9,8 +9,8 @@ import {map, Observable, of} from "rxjs";
 })
 export class UserService {
 
-  private userURL = 'http://localhost:8080/api/users';
-  // private polynomialURL = 'http://polynomial-api-latest.onrender.com/api/users';
+  // private userURL = 'http://localhost:8080/api/users';
+  private userURL = 'http://polynomial-api-latest.onrender.com/api/users';
 
   constructor(private http: HttpClient, private store: Store) {
 

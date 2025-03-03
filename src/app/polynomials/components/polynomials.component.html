@@ -1,55 +1,74 @@
-<main class="main">
-  <ng-container *ngIf="user; else NotLoggedIn">
-    <div class="left-side">
+<div style="padding: 0 32px; background-color: lightslategrey;">
+  <div class="header">
+    <ng-container *ngIf="user">
+      <mat-card appearance="outlined">
+        <mat-card-content style="padding: 8px;">
+          Logged-in user |
+          <span style="color: #bebebe">{{ user?.username }}</span>
+        </mat-card-content>
+      </mat-card>
+      <button
+        mat-raised-button
+        (click)="handleLogout()"
+      >
+        Logout
+      </button>
+    </ng-container>
+  </div>
 
-      <section class="function-section">
-        <app-function-graph
-          [data]="(data$ | async)!"
-          [bestSolution]="(bestSolution$ | async)!"
-        />
-      </section>
+  <main class="main">
+    <ng-container *ngIf="user; else NotLoggedIn">
+      <div class="left-side">
 
-      <section class="variables-section">
-        <div class="variable-box">
-          <div *ngFor="let variable of variables$ | async">
-            <app-data-input
-              [variable]="variable"
-            />
+        <section class="function-section">
+          <app-function-graph
+            [data]="(data$ | async)!"
+            [bestSolution]="(bestSolution$ | async)!"
+          />
+        </section>
+
+        <section class="variables-section">
+          <div class="variable-box">
+            <div *ngFor="let variable of variables$ | async">
+              <app-data-input
+                [variable]="variable"
+              />
+            </div>
           </div>
-        </div>
 
-        <div class="range-box">
-          <div *ngFor="let range of range$ | async; let i = index">
-            <app-range-input
-              [index]="i"
-              [range]="range"
-            />
+          <div class="range-box">
+            <div *ngFor="let range of range$ | async; let i = index">
+              <app-range-input
+                [index]="i"
+                [range]="range"
+              />
+            </div>
           </div>
-        </div>
 
-        <app-variable-buttons/>
+          <app-variable-buttons/>
 
-      </section>
+        </section>
 
-    </div>
+      </div>
 
-    <div class="right-side">
+      <div class="right-side">
 
-      <section class="polynomials-section">
-        <mat-card>
-          <mat-card-content class="recent-poly-box">
-            <h2>Recently created polynomials</h2>
-          </mat-card-content>
-        </mat-card>
-        <app-recent-polynomials/>
-      </section>
+        <section class="polynomials-section">
+          <mat-card>
+            <mat-card-content class="recent-poly-box">
+              <h2>Recently created polynomials</h2>
+            </mat-card-content>
+          </mat-card>
+          <app-recent-polynomials/>
+        </section>
 
-    </div>
-  </ng-container>
-  <ng-template #NotLoggedIn>
-    <div>
-      <h3>Please log in to use this app...</h3>
-      <a href="/">Login page</a>
-    </div>
-  </ng-template>
-</main>
+      </div>
+    </ng-container>
+    <ng-template #NotLoggedIn>
+      <div>
+        <h3>Please log in to use this app...</h3>
+        <a href="/">Login page</a>
+      </div>
+    </ng-template>
+  </main>
+</div>

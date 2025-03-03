@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {DataInputComponent} from "./data-input/data-input.component";
-import {MatIcon} from "@angular/material/icon";
-import {MatButton, MatMiniFabButton} from "@angular/material/button";
+import {MatButton} from "@angular/material/button";
 import {GraphData, Polynomial, Variable} from "../types/types";
 import {VariableButtonsComponent} from "./variable-buttons/variable-buttons.component";
 import {PolynomialService} from "../services/polynomial.service";
@@ -23,6 +22,9 @@ import {Observable, take} from "rxjs";
 import {FunctionService} from "../services/function.service";
 import {AnnealingService} from "../services/annealing.service";
 import {User} from "../../users/types/user.interface";
+import {Router} from "@angular/router";
+
+export const AUTH_TOKEN_KEY = 'authToken';
 
 @Component({
   selector: 'app-polynomials',
@@ -37,7 +39,8 @@ import {User} from "../../users/types/user.interface";
     MatCardContent,
     RecentPolynomialsComponent,
     AsyncPipe,
-    NgIf
+    NgIf,
+    MatButton
   ],
   templateUrl: './polynomials.component.html',
   styleUrl: './polynomials.component.scss'
@@ -55,9 +58,10 @@ export class PolynomialsComponent implements OnInit {
     private polyService: PolynomialService,
     private functionService: FunctionService,
     private annealingService: AnnealingService,
-    protected store: Store<{ polynomials: Polynomial[] }>
+    protected store: Store<{ polynomials: Polynomial[] }>,
+    private router: Router,
   ) {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem(AUTH_TOKEN_KEY);
     if (token) {
       this.user = JSON.parse(token);
     }
@@ -87,5 +91,10 @@ export class PolynomialsComponent implements OnInit {
       });
 
 
+  }
+
+  protected handleLogout(): void {
+    localStorage.removeItem(AUTH_TOKEN_KEY);
+    this.router.navigate(['/']);
   }
 }

@@ -17,6 +17,7 @@ import {take} from "rxjs";
 import {Router} from "@angular/router";
 import {Store} from "@ngrx/store";
 import {setUser} from "../../reducers/polynomial.actions";
+import {AUTH_TOKEN_KEY} from "../../polynomials/components/polynomials.component";
 
 @Component({
   selector: 'user-screen',
@@ -77,7 +78,7 @@ export class UserScreenComponent {
     this.userService.loginUser(user).pipe(take(1)).subscribe(user => {
       this.router.navigate(['/loggedIn']);
       this.store.dispatch(setUser({ user }))
-      localStorage.setItem('authToken', JSON.stringify(user));
+      localStorage.setItem(AUTH_TOKEN_KEY, JSON.stringify(user));
     }, error => {
       this.responseMsg = {flag: true, msg: `Incorrect password or username!`, color: 'red'}
     });
